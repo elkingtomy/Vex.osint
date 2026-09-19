@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEX OSINT COMMAND & INTEL SUITE</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+  <style>
+    :root {
+      --bg-dark: #050807;
+      --panel-bg: rgba(10, 18, 14, 0.92);
+      --border-green: #00ff66;
+      --text-green: #00ff66;
+      --text-dim: #5c8a6f;
+      --accent-glow: rgba(0, 255, 102, 0.25);
+      --warn-color: #ffaa00;
+      --danger-color: #ff3333;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-green);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(0, 30, 15, 0.4) 0%, transparent 80%),
+        linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 25px 25px, 25px 25px;
+    }
+    header {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 2px solid var(--border-green);
+      box-shadow: 0 0 15px var(--accent-glow);
+      background: #020503;
+    }
+    header h1 { font-size: 1.6rem; letter-spacing: 2px; text-shadow: 0 0 8px var(--border-green); }
+    header p { font-size: 0.85rem; color: var(--text-dim); margin-top: 5px; }
+    .container { width: 95%; max-width: 1200px; margin: 20px auto; flex: 1; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; justify-content: center; }
+    .tab-btn {
+      background: rgba(0, 20, 10, 0.8);
+      color: var(--text-dim);
+      border: 1px solid var(--text-dim);
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: rgba(0, 255, 102, 0.15);
+      color: var(--text-green);
+      border-color: var(--border-green);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .panel {
+      display: none;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-green);
+      box-shadow: 0 0 12px var(--accent-glow);
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+    }
+    .panel.active { display: block; }
+    .panel h2 { font-size: 1.2rem; border-bottom: 1px dashed var(--border-green); padding-bottom: 8px; margin-bottom: 15px; }
+    .input-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    input[type="text"], select {
+      flex: 1;
+      min-width: 220px;
+      background: #010a04;
+      border: 1px solid var(--border-green);
+      color: var(--text-green);
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 4px;
+      outline: none;
+    }
+    button.action-btn {
+      background: rgba(0, 255, 102, 0.12);
+      border: 1px solid var(--border-green);
+      color: var(--text-green);
+      padding: 10px 22px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    button.action-btn:hover {
+      background: var(--border-green);
+      color: #000;
+      box-shadow: 0 0 12px var(--border-green);
+    }
+    .results-box {
+      background: #020704;
+      border: 1px solid #143823;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 15px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .grid-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 15px; }
+    .grid-card {
+      background: #05130b;
+      border: 1px solid var(--text-dim);
+      padding: 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--text-green);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .grid-card:hover {
+      border-color: var(--border-green);
+      background: rgba(0, 255, 102, 0.08);
+      transform: translateY(-2px);
+    }
+    #map { height: 350px; width: 100%; border: 1px solid var(--border-green); border-radius: 4px; margin-top: 15px; }
+    footer {
+      text-align: center;
+      padding: 18px;
+      border-top: 2px solid var(--border-green);
+      background: #020503;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--border-green);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>[ VEX OSINT COMMAND & INTEL SUITE ]</h1>
+    <p>// ADVANCED TACTICAL INTELLIGENCE RECON HUB // SYSTEM: ACTIVE</p>
+  </header>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('phone')">PHONE INTEL</button>
+      <button class="tab-btn" onclick="showTab('socmint')">SOCMINT / USERNAME</button>
+      <button class="tab-btn" onclick="showTab('network')">DNS & SUBDOMAINS</button>
+      <button class="tab-btn" onclick="showTab('dork')">DORK FORGE</button>
+      <button class="tab-btn" onclick="showTab('geoint')">GEOINT / EXIF</button>
+    </div>
+
+    <!-- PHONE INTEL -->
+    <div id="phone" class="panel active">
+      <h2>// 01. Phone Intelligence & Telecom Recon</h2>
+      <div class="input-row">
+        <input type="text" id="phoneInput" placeholder="أدخل الرقم مع مفتاح الدولة (مثال: +201012345678 أو +966...)">
+        <button class="action-btn" onclick="analyzePhone()">تحليل وتفكيك الرقم</button>
+      </div>
+      <div id="phoneOutput" class="results-box">بانتظار إدخال الرقم...</div>
+      <div id="phoneLinks" class="grid-links"></div>
+    </div>
+
+    <!-- SOCMINT -->
+    <div id="socmint" class="panel">
+      <h2>// 02. Username & SOCMINT Multi-Probe</h2>
+      <div class="input-row">
+        <input type="text" id="userInput" placeholder="أدخل الاسم المستعار (Username)...">
+        <button class="action-btn" onclick="analyzeUser()">كشف المنصات</button>
+      </div>
+      <div id="userLinks" class="grid-links"></div>
+    </div>
+
+    <!-- NETWORK & DNS -->
+    <div id="network" class="panel">
+      <h2>// 03. Live DNS & Subdomain Harvester</h2>
+      <div class="input-row">
+        <input type="text" id="domainInput" placeholder="أدخل النطاق المستهدف (مثال: target.com)...">
+        <button class="action-btn" onclick="fetchDNS()">فحص السجلات الحية</button>
+        <button class="action-btn" onclick="fetchSubdomains()">سحب النطاقات الفرعية (crt.sh)</button>
+      </div>
+      <div id="networkOutput" class="results-box">بانتظار النطاق...</div>
+    </div>
+
+    <!-- DORK FORGE -->
+    <div id="dork" class="panel">
+      <h2>// 04. Google Dork Intelligence Generator</h2>
+      <div class="input-row">
+        <input type="text" id="dorkInput" placeholder="اسم النطاق أو المؤسسة...">
+        <button class="action-btn" onclick="generateDorks()">توليد الـ Dorks الحساسة</button>
+      </div>
+      <div id="dorkLinks" class="grid-links"></div>
+    </div>
+
+    <!-- GEOINT -->
+    <div id="geoint" class="panel">
+      <h2>// 05. Image EXIF & Satellite GEOINT</h2>
+      <input type="file" id="imgUpload" accept="image/*" style="display:none" onchange="extractExif(this)">
+      <button class="action-btn" onclick="document.getElementById('imgUpload').click()">رفع صورة لاستخراج إحداثيات الـ GPS</button>
+      <div id="exifData" class="results-box" style="margin-top:10px;">بانتظار تحديد الصورة...</div>
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <footer>
+    powered by VEX
+  </footer>
+
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+      if (id === 'geoint' && window.mapInstance) {
+        setTimeout(() => { window.mapInstance.invalidateSize(); }, 200);
+      }
+    }
+
+    function analyzePhone() {
+      let raw = document.getElementById('phoneInput').value.trim().replace(/\s+/g, '');
+      if (!raw) return alert('أدخل الرقم أولاً');
+      let out = `[+] Target Number: ${raw}\n`;
+      let clean = raw.replace('+', '');
+      let country = "Unknown / Global";
+      let operator = "General Cellular Network";
+
+      if (raw.startsWith('+20') || raw.startsWith('0020') || raw.startsWith('01')) {
+        country = "Egypt (مصر) [+20]";
+        if (raw.includes('010')) operator = "Vodafone Egypt";
+        else if (raw.includes('011')) operator = "Etisalat Egypt";
+        else if (raw.includes('012')) operator = "Orange Egypt";
+        else if (raw.includes('015')) operator = "Telecom Egypt (WE)";
+      } else if (raw.startsWith('+966') || raw.startsWith('00966')) {
+        country = "Saudi Arabia (السعودية) [+966]";
+      }
+
+      out += `[+] Geolocation Code: ${country}\n[+] Detected Operator: ${operator}\n[+] Formats: E.164: +${clean}`;
+      document.getElementById('phoneOutput').innerText = out;
+
+      const links = [
+        { name: "Truecaller Search", url: `https://www.truecaller.com/search/${clean}` },
+        { name: "Sync.me Probe", url: `https://sync.me/search/?number=${clean}` },
+        { name: "EmobileTracker", url: `https://www.emobiletracker.com/` },
+        { name: "WhatsApp Direct Check", url: `https://wa.me/${clean}` },
+        { name: "Telegram Open", url: `https://t.me/+${clean}` },
+        { name: "Google Exposed Dumps", url: `https://www.google.com/search?q=%22${clean}%22+filetype:xls+OR+filetype:csv` }
+      ];
+
+      let html = '';
+      links.forEach(l => {
+        html += `<a href="${l.url}" target="_blank" class="grid-card"><span>${l.name}</span><span>[PIVOT]</span></a>`;
+      });
+      document.getElementById('phoneLinks').innerHTML = html;
+    }
+
+    function analyzeUser() {
+      let u = document.getElementById('userInput').value.trim();
+      if (!u) return alert('أدخل اسم المستخدم');
+      const sites = [
+        { name: "GitHub", url: `https://github.com/${u}` },
+        { name: "Twitter / X", url: `https://twitter.com/${u}` },
+        { name: "Instagram", url: `https://instagram.com/${u}` },
+        { name: "Reddit", url: `https://reddit.com/user/${u}` },
+        { name: "Telegram", url: `https://t.me/${u}` },
+        { name: "TikTok", url: `https://tiktok.com/@${u}` },
+        { name: "Pinterest", url: `https://pinterest.com/${u}` },
+        { name: "Keybase", url: `https://keybase.io/${u}` },
+        { name: "HackerOne", url: `https://hackerone.com/${u}` },
+        { name: "Bugcrowd", url: `https://bugcrowd.com/${u}` },
+        { name: "WhatsMyName Search", url: `https://whatsmyname.app/?q=${u}` }
+      ];
+      let html = '';
+      sites.forEach(s => {
+        html += `<a href="${s.url}" target="_blank" class="grid-card"><span>${s.name}</span><span>[VISIT]</span></a>`;
+      });
+      document.getElementById('userLinks').innerHTML = html;
+    }
+
+    async function fetchDNS() {
+      let d = document.getElementById('domainInput').value.trim();
+      if (!d) return alert('أدخل اسم النطاق');
+      let out = document.getElementById('networkOutput');
+      out.innerText = `[+] Querying Google DNS over HTTPS for: ${d}...\n`;
+
+      const types = ['A', 'MX', 'TXT', 'NS'];
+      for (let t of types) {
+        try {
+          let res = await fetch(`https://dns.google/resolve?name=${d}&type=${t}`);
+          let json = await res.json();
+          out.innerText += `\n[--- ${t} RECORDS ---]\n`;
+          if (json.Answer) {
+            json.Answer.forEach(a => { out.innerText += `> ${a.data}\n`; });
+          } else {
+            out.innerText += `No ${t} records found.\n`;
+          }
+        } catch (e) {
+          out.innerText += `Error fetching ${t}\n`;
+        }
+      }
+    }
+
+    async function fetchSubdomains() {
+      let d = document.getElementById('domainInput').value.trim();
+      if (!d) return alert('أدخل اسم النطاق');
+      let out = document.getElementById('networkOutput');
+      out.innerText = `[+] Harvesting Subdomains from crt.sh Certificate Logs for: ${d}...\n`;
+      try {
+        let res = await fetch(`https://crt.sh/?q=%25.${d}&output=json`);
+        let json = await res.json();
+        let subs = new Set();
+        json.forEach(item => {
+          let names = item.name_value.split('\n');
+          names.forEach(n => subs.add(n.trim()));
+        });
+        out.innerText += `\n[+] Found ${subs.size} Unique Subdomains:\n`;
+        subs.forEach(s => { out.innerText += `> ${s}\n`; });
+      } catch (e) {
+        out.innerText += `[!] Error or Rate-limited by crt.sh\n`;
+      }
+    }
+
+    function generateDorks() {
+      let t = document.getElementById('dorkInput').value.trim();
+      if (!t) return alert('أدخل الهدف');
+      const dorks = [
+        { name: "Exposed Log Files", q: `site:${t} filetype:log OR "access.log"` },
+        { name: "Database Dumps & SQL", q: `site:${t} filetype:sql OR "index of /" "backup.sql"` },
+        { name: "Exposed Env & Credentials", q: `site:${t} inurl:.env OR intext:DB_PASSWORD` },
+        { name: "Exposed Excel Sheets", q: `site:${t} filetype:xls OR filetype:xlsx OR filetype:csv` },
+        { name: "Admin / Login Portals", q: `site:${t} inurl:admin OR inurl:login OR inurl:dashboard` },
+        { name: "Public PDF Reports", q: `site:${t} filetype:pdf "confidential" OR "internal use"` }
+      ];
+      let html = '';
+      dorks.forEach(d => {
+        let url = `https://www.google.com/search?q=${encodeURIComponent(d.q)}`;
+        html += `<a href="${url}" target="_blank" class="grid-card"><span>${d.name}</span><span>[LAUNCH]</span></a>`;
+      });
+      document.getElementById('dorkLinks').innerHTML = html;
+    }
+
+    function extractExif(input) {
+      if (!input.files || !input.files[0]) return;
+      let file = input.files[0];
+      let out = document.getElementById('exifData');
+      out.innerText = `[+] Processing Image: ${file.name}...\n`;
+
+      EXIF.getData(file, function() {
+        let make = EXIF.getTag(this, "Make");
+        let model = EXIF.getTag(this, "Model");
+        let date = EXIF.getTag(this, "DateTimeOriginal");
+        let lat = EXIF.getTag(this, "GPSLatitude");
+        let lon = EXIF.getTag(this, "GPSLongitude");
+
+        let txt = `[+] Device: ${make || 'Unknown'} ${model || ''}\n[+] Timestamp: ${date || 'No Date Tag'}\n`;
+
+        if (lat && lon) {
+          let latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
+          let lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "E";
+          let decLat = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef === "S" ? -1 : 1);
+          let decLon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef === "W" ? -1 : 1);
+
+          txt += `[+] GPS Latitude: ${decLat.toFixed(6)}\n[+] GPS Longitude: ${decLon.toFixed(6)}\n`;
+          out.innerText = txt;
+          renderMap(decLat, decLon);
+        } else {
+          txt += `[-] No GPS Coordinates embedded in this image.\n`;
+          out.innerText = txt;
+        }
+      });
+    }
+
+    function renderMap(lat, lon) {
+      if (!window.mapInstance) {
+        window.mapInstance = L.map('map').setView([lat, lon], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(window.mapInstance);
+      } else {
+        window.mapInstance.setView([lat, lon], 14);
+      }
+      L.marker([lat, lon]).addTo(window.mapInstance).bindPopup("GEOINT Location Found").openPopup();
+    }
+  </script>
+</body>
+  </html>
