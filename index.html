@@ -106,6 +106,7 @@
       overflow-y: auto;
       font-size: 0.9rem;
       line-height: 1.6;
+      white-space: pre-wrap;
     }
     .grid-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 15px; }
     .grid-card {
@@ -146,16 +147,28 @@
 
   <div class="container">
     <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('phone')">PHONE INTEL</button>
+      <button class="tab-btn active" onclick="showTab('email')">EMAIL INTEL</button>
+      <button class="tab-btn" onclick="showTab('phone')">PHONE INTEL</button>
       <button class="tab-btn" onclick="showTab('socmint')">SOCMINT / USERNAME</button>
       <button class="tab-btn" onclick="showTab('network')">DNS & SUBDOMAINS</button>
       <button class="tab-btn" onclick="showTab('dork')">DORK FORGE</button>
       <button class="tab-btn" onclick="showTab('geoint')">GEOINT / EXIF</button>
     </div>
 
+    <!-- EMAIL INTEL -->
+    <div id="email" class="panel active">
+      <h2>// 01. Email Intelligence & Breach Recon</h2>
+      <div class="input-row">
+        <input type="text" id="emailInput" placeholder="أدخل البريد الإلكتروني المستهدف (مثال: target@example.com)...">
+        <button class="action-btn" onclick="analyzeEmail()">تحليل البريد وتسريباته</button>
+      </div>
+      <div id="emailOutput" class="results-box">بانتظار إدخال البريد الإلكتروني...</div>
+      <div id="emailLinks" class="grid-links"></div>
+    </div>
+
     <!-- PHONE INTEL -->
-    <div id="phone" class="panel active">
-      <h2>// 01. Phone Intelligence & Telecom Recon</h2>
+    <div id="phone" class="panel">
+      <h2>// 02. Phone Intelligence & Telecom Recon</h2>
       <div class="input-row">
         <input type="text" id="phoneInput" placeholder="أدخل الرقم مع مفتاح الدولة (مثال: +201012345678 أو +966...)">
         <button class="action-btn" onclick="analyzePhone()">تحليل وتفكيك الرقم</button>
@@ -166,7 +179,7 @@
 
     <!-- SOCMINT -->
     <div id="socmint" class="panel">
-      <h2>// 02. Username & SOCMINT Multi-Probe</h2>
+      <h2>// 03. Username & SOCMINT Multi-Probe</h2>
       <div class="input-row">
         <input type="text" id="userInput" placeholder="أدخل الاسم المستعار (Username)...">
         <button class="action-btn" onclick="analyzeUser()">كشف المنصات</button>
@@ -176,7 +189,7 @@
 
     <!-- NETWORK & DNS -->
     <div id="network" class="panel">
-      <h2>// 03. Live DNS & Subdomain Harvester</h2>
+      <h2>// 04. Live DNS & Subdomain Harvester</h2>
       <div class="input-row">
         <input type="text" id="domainInput" placeholder="أدخل النطاق المستهدف (مثال: target.com)...">
         <button class="action-btn" onclick="fetchDNS()">فحص السجلات الحية</button>
@@ -187,7 +200,7 @@
 
     <!-- DORK FORGE -->
     <div id="dork" class="panel">
-      <h2>// 04. Google Dork Intelligence Generator</h2>
+      <h2>// 05. Google Dork Intelligence Generator</h2>
       <div class="input-row">
         <input type="text" id="dorkInput" placeholder="اسم النطاق أو المؤسسة...">
         <button class="action-btn" onclick="generateDorks()">توليد الـ Dorks الحساسة</button>
@@ -197,7 +210,7 @@
 
     <!-- GEOINT -->
     <div id="geoint" class="panel">
-      <h2>// 05. Image EXIF & Satellite GEOINT</h2>
+      <h2>// 06. Image EXIF & Satellite GEOINT</h2>
       <input type="file" id="imgUpload" accept="image/*" style="display:none" onchange="extractExif(this)">
       <button class="action-btn" onclick="document.getElementById('imgUpload').click()">رفع صورة لاستخراج إحداثيات الـ GPS</button>
       <div id="exifData" class="results-box" style="margin-top:10px;">بانتظار تحديد الصورة...</div>
@@ -218,6 +231,57 @@
       if (id === 'geoint' && window.mapInstance) {
         setTimeout(() => { window.mapInstance.invalidateSize(); }, 200);
       }
+    }
+
+    async function analyzeEmail() {
+      let email = document.getElementById('emailInput').value.trim();
+      let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        return alert('يرجى إدخال بريد إلكتروني صحيح');
+      }
+
+      let parts = email.split('@');
+      let user = parts[0];
+      let domain = parts[1].toLowerCase();
+      let outBox = document.getElementById('emailOutput');
+      outBox.innerText = `[+] Initiating Email Recon for: ${email}\n[+] Target Username: ${user}\n[+] Mail Domain: ${domain}\n[+] Checking Domain MX Infrastructure...\n`;
+
+      let provider = "Custom / Enterprise Domain";
+      if (domain.includes('gmail.com')) provider = "Google Workspace / Gmail Consumer";
+      else if (domain.includes('outlook.com') || domain.includes('hotmail.com')) provider = "Microsoft Live / Outlook";
+      else if (domain.includes('proton.me') || domain.includes('protonmail.com')) provider = "ProtonMail (End-to-End Encrypted)";
+      else if (domain.includes('yahoo.com')) provider = "Yahoo Mail";
+      
+      outBox.innerText += `[+] Provider Profile: ${provider}\n`;
+
+      // Live DNS check for MX records via Google DoH
+      try {
+        let res = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
+        let json = await res.json();
+        if (json.Answer && json.Answer.length > 0) {
+          outBox.innerText += `[+] Active Mail Servers (MX Records) Found:\n`;
+          json.Answer.forEach(a => { outBox.innerText += `   > ${a.data}\n`; });
+        } else {
+          outBox.innerText += `[-] No Active MX Records detected for domain ${domain}.\n`;
+        }
+      } catch (e) {
+        outBox.innerText += `[!] Failed to verify live MX records.\n`;
+      }
+
+      const links = [
+        { name: "HaveIBeenPwned (Breaches)", url: `https://haveibeenpwned.com/account/${email}` },
+        { name: "Epieos (Google & Services)", url: `https://epieos.com/?q=${encodeURIComponent(email)}` },
+        { name: "DeHashed (Deep Breach)", url: `https://dehashed.com/search?query=${encodeURIComponent(email)}` },
+        { name: "OSINT Industries Check", url: `https://osint.industries/` },
+        { name: "Hunter.io (Domain Pattern)", url: `https://hunter.io/try/search/${domain}` },
+        { name: "Google Exposed Passwords Dork", url: `https://www.google.com/search?q=%22${email}%22+password+OR+pass+OR+hash+filetype:txt+OR+filetype:log` }
+      ];
+
+      let html = '';
+      links.forEach(l => {
+        html += `<a href="${l.url}" target="_blank" class="grid-card"><span>${l.name}</span><span>[PIVOT]</span></a>`;
+      });
+      document.getElementById('emailLinks').innerHTML = html;
     }
 
     function analyzePhone() {
@@ -384,4 +448,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
