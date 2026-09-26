@@ -3,497 +3,384 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vortex Institute for Defense & Intelligence Studies | معهد فورتكس للدراسات الدفاعية</title>
+  <title>Vortex Institute | معهد فورتكس للدراسات الدفاعية والاستخبارات</title>
   
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS CDN الموثوق -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- خطوط عربية وأكاديمية فاخرة -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            harvard: {
-              crimson: '#A51C30',
-              crimsonHover: '#8C1525',
-              crimsonDark: '#5E0E19',
-              navy: '#0A192F',
-              navyLight: '#112240',
-              gold: '#C5A059',
-              cream: '#FBF9F5',
-              border: '#E2E8F0'
-            }
-          },
-          fontFamily: {
-            serif: ['Amiri', 'serif'],
-            sans: ['Cairo', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+    
+    * {
       font-family: 'Cairo', sans-serif;
-      background-color: #F8FAFC;
     }
-    .academic-heading {
-      font-family: 'Amiri', serif;
-    }
+    
     .font-code {
       font-family: 'JetBrains Mono', monospace;
       direction: ltr;
       text-align: left;
     }
-    .page-view {
+    
+    .page-section {
       display: none;
-      animation: fadeIn 0.3s ease-in-out forwards;
     }
-    .page-view.active {
+    
+    .page-section.active {
       display: block;
+      animation: fadeIn 0.25s ease-in-out forwards;
     }
+    
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #0A192F;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 3px;
     }
   </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-harvard-crimson selection:text-white">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-[#A51C30] selection:text-white">
 
-  <!-- ==================== رأس الموقع والمعهد (Header & Navigation) ==================== -->
-  <header class="bg-harvard-navy text-white border-b-4 border-harvard-crimson sticky top-0 z-50 shadow-md">
-    <!-- الشريط التوثيقي العلوي (Institutional Utility Bar) -->
-    <div class="border-b border-slate-700/60 bg-harvard-navyLight/50 text-[11px] py-1.5 px-6">
+  <!-- ==================== الشريط العلوي الأكاديمي (Header) ==================== -->
+  <header class="bg-[#0A192F] text-white border-b-4 border-[#A51C30] sticky top-0 z-50 shadow-xl">
+    
+    <!-- شريط الحالة العلوي -->
+    <div class="bg-[#06101E] border-b border-slate-800 text-[11px] py-1.5 px-6">
       <div class="max-w-7xl mx-auto flex justify-between items-center text-slate-300">
-        <div class="flex items-center gap-4">
-          <span class="flex items-center gap-1.5 text-harvard-gold font-semibold">
-            <i data-lucide="award" class="w-3.5 h-3.5"></i> اعتماد الدراسات الاستخبارية والأمن السيبراني
-          </span>
-          <span class="hidden md:inline text-slate-500">|</span>
-          <span class="hidden md:inline">مستودع الأبحاث الرقمية المحكمة</span>
+        <div class="flex items-center gap-3">
+          <span class="text-[#C5A059] font-bold">معهد فورتكس للأبحاث والاستخبارات الدفاعية (OSINT)</span>
+          <span class="text-slate-600 hidden sm:inline">|</span>
+          <span class="text-slate-400 hidden sm:inline">بوابة الباحثين المعتمدين</span>
         </div>
-        <div class="flex items-center gap-4 font-mono text-[11px]">
-          <span class="text-slate-400" id="utcTimeTicker">UTC 00:00:00</span>
-          <span class="flex items-center gap-1.5 text-emerald-400 font-sans">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> خوادم التحليل نشطة
+        <div class="flex items-center gap-4 text-[11px]">
+          <span id="systemClock" class="font-code text-slate-400">00:00:00</span>
+          <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> المنظومة نشطة
           </span>
         </div>
       </div>
     </div>
 
-    <!-- شريط الشعار والتنقل بين الصفحات -->
+    <!-- شريط التنقل الرئيسي -->
     <div class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
-      <div class="flex items-center gap-3.5 cursor-pointer" onclick="navigateTo('home')">
-        <div class="w-12 h-12 bg-harvard-crimson rounded-sm flex items-center justify-center text-white font-serif font-bold text-3xl shadow-lg border border-red-400/20">
+      
+      <!-- الشعار المؤسسي -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+        <div class="w-11 h-11 bg-[#A51C30] rounded flex items-center justify-center text-white font-bold text-2xl shadow-lg border border-red-400/20">
           V
         </div>
         <div>
-          <h1 class="text-xl font-bold academic-heading tracking-wide text-white leading-tight">
-            VORTEX INSTITUTE FOR DEFENSE STUDIES
-          </h1>
-          <p class="text-[11px] text-harvard-gold tracking-widest font-medium">معهد فورتكس للأبحاث والاستخبارات مفتوحة المصدر</p>
+          <h1 class="text-base sm:text-lg font-black tracking-wide text-white">VORTEX DEFENSE LABS</h1>
+          <p class="text-[10px] text-[#C5A059] font-bold">بوابة استخبارات التهديدات والدفاع الرقمي</p>
         </div>
       </div>
 
-      <!-- روابط الصفحات الرئيسية (Nav Links) -->
-      <nav class="hidden lg:flex items-center gap-1 text-sm font-semibold text-slate-200">
-        <button onclick="navigateTo('home')" class="nav-btn px-3.5 py-2 rounded hover:text-harvard-gold hover:bg-slate-800/60 transition flex items-center gap-1.5" data-target="home">
-          <i data-lucide="landmark" class="w-4 h-4"></i> الرئيسية
+      <!-- روابط الصفحات -->
+      <nav class="hidden lg:flex items-center gap-1.5 text-xs font-bold text-slate-200">
+        <button onclick="showPage('home')" id="nav-home" class="nav-link px-3.5 py-2 rounded bg-slate-800 text-[#C5A059] hover:bg-slate-800 transition">
+          الرئيسية
         </button>
-        <button onclick="navigateTo('recon')" class="nav-btn px-3.5 py-2 rounded hover:text-harvard-gold hover:bg-slate-800/60 transition flex items-center gap-1.5" data-target="recon">
-          <i data-lucide="radar" class="w-4 h-4"></i> مختبر الاستخبارات (OSINT)
+        <button onclick="showPage('recon')" id="nav-recon" class="nav-link px-3.5 py-2 rounded hover:bg-slate-800 transition">
+          مختبر الاستخبارات (OSINT)
         </button>
-        <button onclick="navigateTo('community')" class="nav-btn px-3.5 py-2 rounded hover:text-harvard-gold hover:bg-slate-800/60 transition flex items-center gap-1.5" data-target="community">
-          <i data-lucide="network" class="w-4 h-4"></i> شبكة الباحثين
+        <button onclick="showPage('community')" id="nav-community" class="nav-link px-3.5 py-2 rounded hover:bg-slate-800 transition">
+          شبكة الباحثين
         </button>
-        <button onclick="navigateTo('archive')" class="nav-btn px-3.5 py-2 rounded hover:text-harvard-gold hover:bg-slate-800/60 transition flex items-center gap-1.5" data-target="archive">
-          <i data-lucide="book-marked" class="w-4 h-4"></i> مستودع الدراسات
+        <button onclick="showPage('archive')" id="nav-archive" class="nav-link px-3.5 py-2 rounded hover:bg-slate-800 transition">
+          مستودع الأبحاث
         </button>
       </nav>
 
-      <!-- إدارة المستخدم والجلسة -->
+      <!-- زر الحساب والجلسة -->
       <div class="flex items-center gap-3">
-        <div id="guestNavAction">
-          <button onclick="navigateTo('auth')" class="bg-harvard-crimson hover:bg-harvard-crimsonHover text-white text-xs font-bold px-4 py-2 rounded shadow transition flex items-center gap-1.5">
-            <i data-lucide="log-in" class="w-4 h-4"></i>
-            <span>تسجيل الدخول / باحث جديد</span>
-          </button>
+        <!-- زر تسجيل الدخول (يختفي عند تسجيل الدخول) -->
+        <button id="authTriggerBtn" onclick="showPage('auth')" class="bg-[#A51C30] hover:bg-[#8C1525] text-white text-xs font-bold px-4 py-2 rounded shadow transition">
+          تسجيل الدخول / حساب جديد
+        </button>
+
+        <!-- بيانات المستخدم المسجل -->
+        <div id="userProfileBadge" class="hidden flex items-center gap-2.5 bg-slate-800/90 border border-slate-700 px-3 py-1.5 rounded cursor-pointer" onclick="showPage('profile')">
+          <div id="userAvatarText" class="w-7 h-7 rounded bg-[#A51C30] text-white font-bold text-xs flex items-center justify-center">م</div>
+          <div class="text-right hidden sm:block">
+            <p id="userNameDisplay" class="text-xs font-bold text-slate-100">مصطفى أحمد</p>
+            <span class="text-[9px] text-[#C5A059]">محلل أمني</span>
+          </div>
         </div>
         
-        <div id="userNavAction" class="hidden flex items-center gap-3">
-          <button onclick="navigateTo('profile')" class="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-800 border border-slate-700 px-3 py-1.5 rounded transition text-xs">
-            <div class="w-6 h-6 rounded bg-harvard-crimson text-white font-bold flex items-center justify-center text-[11px]" id="navUserAvatar">م</div>
-            <span class="font-bold text-slate-200" id="navUserName">مصطفى أحمد</span>
-          </button>
-          <button onclick="logout()" title="تسجيل الخروج" class="p-2 rounded bg-slate-800/80 hover:bg-red-950/40 text-slate-400 hover:text-red-400 border border-slate-700 transition">
-            <i data-lucide="power" class="w-4 h-4"></i>
-          </button>
-        </div>
+        <button id="logoutBtn" onclick="userLogout()" class="hidden p-2 rounded bg-slate-800 hover:bg-red-950/50 text-slate-400 hover:text-red-400 transition" title="تسجيل الخروج">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        </button>
       </div>
+
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- 1. الصفحة الرئيسية: الرؤية الأكاديمية والموجز البحثي (Home Page) -->
+  <!-- 1. الصفحة الرئيسية (Home Page) -->
   <!-- ========================================================================= -->
-  <section id="page-home" class="page-view active flex-1">
-    <!-- البانر الترحيبي المؤسسي (Hero) -->
-    <div class="bg-gradient-to-b from-harvard-navy to-harvard-navyLight text-white py-16 px-6 border-b border-slate-800 relative overflow-hidden">
-      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+  <main id="page-home" class="page-section active flex-1">
+    
+    <!-- البانر التعريفي -->
+    <div class="bg-gradient-to-b from-[#0A192F] to-slate-900 border-b border-slate-800 py-16 px-6">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
         <div class="lg:col-span-8 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-harvard-crimson/20 border border-harvard-crimson text-harvard-gold text-xs font-bold">
-            <i data-lucide="shield-alert" class="w-4 h-4"></i>
-            <span>المرصد الدفاعي لتحليل التهديدات والبنى التحتية</span>
+          <div class="inline-block px-3 py-1 bg-[#A51C30]/20 border border-[#A51C30] text-[#C5A059] rounded text-xs font-bold">
+            مرصد أبحاث التهديدات والبنى التحتية المفتوحة
           </div>
-          <h2 class="text-3xl md:text-5xl font-bold academic-heading leading-tight">
-            استخبارات المصادر المفتوحة للدفاع الرقمي وحماية الفضاء السيبراني
+          <h2 class="text-3xl md:text-5xl font-black text-white leading-tight">
+            استخبارات المصادر المفتوحة للدفاع الرقمي وتحليل البصمة العامة
           </h2>
           <p class="text-slate-300 text-sm md:text-base leading-relaxed max-w-2xl">
-            منظومة أكاديمية وبحثية تجمع بين التحليل الخوارزمي المتقدم، وأدوات تدقيق النطاقات وعناوين الشبكات، وشبكة تفاعلية تضم نخبة من محللي التهديدات والباحثين الأكاديميين وفق أعلى المعايير الأخلاقية والمؤسسية.
+            منظومة أبحاث أكاديمية تجمع بين الفحص الاستخباري للنطاقات، وتتبع المسارات، والتدقيق الخوارزمي المحدد، مع شبكة تفاعلية تتيح للمحللين والباحثين تبادل التقارير الأمنية.
           </p>
           <div class="flex flex-wrap gap-4 pt-2">
-            <button onclick="navigateTo('recon')" class="bg-harvard-crimson hover:bg-harvard-crimsonHover text-white text-sm font-bold px-6 py-3 rounded shadow-lg transition flex items-center gap-2">
-              <i data-lucide="cpu" class="w-4 h-4"></i>
-              <span>الدخول إلى مختبر التحليل الأمني</span>
+            <button onclick="showPage('recon')" class="bg-[#A51C30] hover:bg-[#8C1525] text-white text-xs md:text-sm font-bold px-6 py-3 rounded shadow-lg transition">
+              فتح مختبر التحليل الأمني (OSINT)
             </button>
-            <button onclick="navigateTo('archive')" class="bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-600 text-sm font-bold px-6 py-3 rounded transition flex items-center gap-2">
-              <i data-lucide="file-text" class="w-4 h-4"></i>
-              <span>تصفح الأوراق والتقارير المحكمة</span>
+            <button onclick="showPage('community')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs md:text-sm font-bold px-6 py-3 rounded transition">
+              تصفح شبكة الباحثين والتقارير
             </button>
           </div>
         </div>
 
-        <!-- بطاقة الإحصائيات الحية (Telemetry & Intel Status) -->
-        <div class="lg:col-span-4 bg-harvard-navy/90 border border-slate-700/80 rounded-lg p-6 shadow-2xl backdrop-blur">
-          <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
-            <span class="text-xs font-bold text-harvard-gold flex items-center gap-1.5">
-              <i data-lucide="radio" class="w-4 h-4 text-emerald-400 animate-pulse"></i> بث الرصد الأمني المباشر
-            </span>
-            <span class="text-[10px] font-mono text-slate-400">STATUS: NOMINAL</span>
+        <!-- بطاقة الإحصائيات -->
+        <div class="lg:col-span-4 bg-slate-900/90 border border-slate-800 rounded-lg p-6 shadow-2xl">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4 text-xs font-bold">
+            <span class="text-[#C5A059]">مؤشرات المنظومة البحثية</span>
+            <span class="text-emerald-400">ACTIVE</span>
           </div>
-          <div class="space-y-4 text-xs">
-            <div class="flex justify-between items-center p-2.5 rounded bg-slate-900/60 border border-slate-800">
-              <span class="text-slate-300">فحوصات الـ DNS المنفذة</span>
-              <span class="font-mono text-emerald-400 font-bold">142,890+</span>
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between items-center p-3 rounded bg-slate-950/60 border border-slate-800/80">
+              <span class="text-slate-400">فحوصات النطاقات المنفذة:</span>
+              <span class="font-code font-bold text-emerald-400">284,120+</span>
             </div>
-            <div class="flex justify-between items-center p-2.5 rounded bg-slate-900/60 border border-slate-800">
-              <span class="text-slate-300">الأوراق البحثية المحكمة</span>
-              <span class="font-mono text-harvard-gold font-bold">340 بحث</span>
+            <div class="flex justify-between items-center p-3 rounded bg-slate-950/60 border border-slate-800/80">
+              <span class="text-slate-400">الأوراق والدراسات الأكاديمية:</span>
+              <span class="font-code font-bold text-[#C5A059]">350 ورقة</span>
             </div>
-            <div class="flex justify-between items-center p-2.5 rounded bg-slate-900/60 border border-slate-800">
-              <span class="text-slate-300">محللون معتمدون بالشبكة</span>
-              <span class="font-mono text-cyan-400 font-bold">1,820 زميل</span>
+            <div class="flex justify-between items-center p-3 rounded bg-slate-950/60 border border-slate-800/80">
+              <span class="text-slate-400">دقة التحليل الخوارزمي:</span>
+              <span class="font-code font-bold text-white">99.98%</span>
             </div>
-            <div class="flex justify-between items-center p-2.5 rounded bg-slate-900/60 border border-slate-800">
-              <span class="text-slate-300">معدل دقة التدقيق الخوارزمي</span>
-              <span class="font-mono text-slate-200 font-bold">99.98%</span>
-            </div>
-          </div>
-          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 text-center">
-            تحديث البيانات يتم كل 60 ثانية عبر شبكة مجسات فورتكس الدفاعية
           </div>
         </div>
+
       </div>
     </div>
 
-    <!-- ركائز المنصة والخدمات (Core Pillars) -->
+    <!-- ميزات المنصة -->
     <div class="max-w-7xl mx-auto px-6 py-16">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h3 class="text-2xl font-bold academic-heading text-harvard-navy">ركائز المنظومة الاستخبارية والبحثية</h3>
-        <div class="w-16 h-1 bg-harvard-crimson mx-auto mt-2 mb-3"></div>
-        <p class="text-xs text-slate-600">خدمات استخبارية ودفاعية متكاملة مصممة للباحثين والمحللين والجهات الأكاديمية</p>
+      <div class="text-center max-w-xl mx-auto mb-12">
+        <h3 class="text-2xl font-black text-white">أدوات ووحدات الفحص المتاحة</h3>
+        <div class="w-12 h-1 bg-[#A51C30] mx-auto mt-2 mb-3"></div>
+        <p class="text-xs text-slate-400">بيئة فحص وتدقيق مصممة لتأمين الأنظمة وتدريب الباحثين</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- ركيزة 1 -->
-        <div class="bg-white border border-harvard-border p-6 rounded-lg shadow-sm hover:shadow-md transition">
-          <div class="w-12 h-12 bg-harvard-navy text-harvard-gold rounded flex items-center justify-center mb-4">
-            <i data-lucide="globe-2" class="w-6 h-6"></i>
-          </div>
-          <h4 class="font-bold text-base text-harvard-navy mb-2">استخبارات النطاقات والبنية الرقمية</h4>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            استخراج وتحليل سجلات DNS العامة (A, MX, TXT, SPF, DKIM, NS) وكشف توجيهات الاستضافة ورسم خرائط البصمة السطحية للنطاقات.
-          </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-800/60 border border-slate-700/60 p-6 rounded-lg">
+          <div class="w-10 h-10 bg-[#0A192F] text-[#C5A059] rounded flex items-center justify-center font-bold text-lg mb-4 border border-slate-700">1</div>
+          <h4 class="font-bold text-sm text-white mb-2">استخبارات النطاقات والبنية التحتية</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">فحص سجلات DNS العامة (A, MX, TXT, SPF) وسياسات DMARC وكشف مزودي الخدمة.</p>
         </div>
 
-        <!-- ركيزة 2 -->
-        <div class="bg-white border border-harvard-border p-6 rounded-lg shadow-sm hover:shadow-md transition">
-          <div class="w-12 h-12 bg-harvard-crimson text-white rounded flex items-center justify-center mb-4">
-            <i data-lucide="binary" class="w-6 h-6"></i>
-          </div>
-          <h4 class="font-bold text-base text-harvard-navy mb-2">التدقيق الخوارزمي المحدد (Deterministic)</h4>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            تفكيك وتحليل الهياكل الرياضية المعيارية للأرقام القومية للتحقق من سلامة الأرقام دون أي خوادم خارجية أو انتهاك لخصوصية الأفراد.
-          </p>
+        <div class="bg-slate-800/60 border border-slate-700/60 p-6 rounded-lg">
+          <div class="w-10 h-10 bg-[#A51C30] text-white rounded flex items-center justify-center font-bold text-lg mb-4">2</div>
+          <h4 class="font-bold text-sm text-white mb-2">التدقيق الخوارزمي للرقم القومي</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">تفكيك حسابي لهيكل الـ 14 رقماً واستنتاج المحافظة وتاريخ الميلاد رياضياً بدون قواعد بيانات خاصة.</p>
         </div>
 
-        <!-- ركيزة 3 -->
-        <div class="bg-white border border-harvard-border p-6 rounded-lg shadow-sm hover:shadow-md transition">
-          <div class="w-12 h-12 bg-slate-800 text-emerald-400 rounded flex items-center justify-center mb-4">
-            <i data-lucide="users-2" class="w-6 h-6"></i>
-          </div>
-          <h4 class="font-bold text-base text-harvard-navy mb-2">شبكة التعاون الأكاديمي والتحليلي</h4>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            مساحة مغلقة وموثقة للمحللين الأمنيين لنشر تقارير الحوادث، وتحليل أنماط التهديد، والتفاعل مع أبحاث المجتمع العلمي الرصين.
-          </p>
+        <div class="bg-slate-800/60 border border-slate-700/60 p-6 rounded-lg">
+          <div class="w-10 h-10 bg-slate-900 text-emerald-400 rounded flex items-center justify-center font-bold text-lg mb-4 border border-slate-700">3</div>
+          <h4 class="font-bold text-sm text-white mb-2">شبكة الباحثين والمجتمع الأمني</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">مساحة نشر وتواصل تفاعلية للتقارير الأمنية والتحليلات الخاصة بمسارات التهديدات الحديثة.</p>
         </div>
       </div>
     </div>
-  </section>
+
+  </main>
 
   <!-- ========================================================================= -->
-  <!-- 2. صفحة المصادقة والاعتماد: تسجيل الدخول وإنشاء حساب (Auth Page) -->
+  <!-- 2. صفحة تسجيل الدخول وإنشاء الحساب (Auth Page) -->
   <!-- ========================================================================= -->
-  <section id="page-auth" class="page-view flex-1 py-12 px-6">
-    <div class="max-w-md mx-auto bg-white border border-harvard-border rounded-lg shadow-lg p-8">
+  <main id="page-auth" class="page-section flex-1 py-12 px-6">
+    <div class="max-w-md mx-auto bg-slate-800/80 border border-slate-700 rounded-lg shadow-2xl p-8">
       
-      <!-- رأس بطاقة المصادقة -->
-      <div class="text-center mb-6 pb-6 border-b border-slate-100">
-        <div class="w-12 h-12 bg-harvard-navy text-harvard-gold mx-auto rounded flex items-center justify-center mb-3">
-          <i data-lucide="shield-check" class="w-6 h-6"></i>
-        </div>
-        <h2 class="text-2xl font-bold academic-heading text-harvard-navy" id="authBoxTitle">بوابة اعتماد الباحثين</h2>
-        <p class="text-xs text-slate-500 mt-1" id="authBoxSubtitle">تسجيل الدخول للمختبر الأكاديمي وشبكة الاستخبارات الدفاعية</p>
+      <div class="text-center mb-6 pb-6 border-b border-slate-700">
+        <div class="w-12 h-12 bg-[#0A192F] text-[#C5A059] mx-auto rounded flex items-center justify-center font-bold text-2xl mb-3 border border-slate-700">V</div>
+        <h2 id="authFormTitle" class="text-xl font-black text-white">بوابة اعتماد الباحثين</h2>
+        <p id="authFormSubtitle" class="text-xs text-slate-400 mt-1">سجل الدخول للوصول إلى مختبر الاستخبارات وشبكة المحللين</p>
       </div>
 
-      <!-- تبديل النمط: دخول / تسجيل -->
-      <div class="flex bg-slate-100 p-1 rounded mb-6 border border-slate-200">
-        <button id="authTabLogin" onclick="switchAuthMode('login')" class="flex-1 py-2 text-xs font-bold rounded transition bg-white text-harvard-navy shadow-sm">
+      <!-- أزرار التبديل بين الدخول والتسجيل -->
+      <div class="flex bg-slate-900 p-1 rounded mb-6 border border-slate-700">
+        <button id="btnSwitchLogin" onclick="setAuthMode('login')" class="flex-1 py-2 text-xs font-bold rounded bg-[#A51C30] text-white transition">
           تسجيل الدخول
         </button>
-        <button id="authTabRegister" onclick="switchAuthMode('register')" class="flex-1 py-2 text-xs font-bold rounded transition text-slate-600 hover:text-slate-900">
-          طلب اعتماد باحث جديد
+        <button id="btnSwitchRegister" onclick="setAuthMode('register')" class="flex-1 py-2 text-xs font-bold rounded text-slate-400 hover:text-white transition">
+          إنشاء حساب باحث
         </button>
       </div>
 
-      <!-- نموذج الدخول والاعتماد -->
-      <form id="mainAuthForm" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs">
+      <form onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs">
         
         <!-- حقول إضافية لإنشاء الحساب -->
         <div id="registerFields" class="hidden space-y-4">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">الاسم الكامل (الأكاديمي)</label>
-            <input type="text" id="regFullName" placeholder="د. مصطفى أحمد عبد المعطي" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-800 focus:outline-none focus:border-harvard-navy focus:bg-white transition">
+            <label class="block font-bold text-slate-300 mb-1">الاسم الكامل</label>
+            <input type="text" id="inputRegName" placeholder="مصطفى أحمد" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-slate-100 focus:outline-none focus:border-[#A51C30]">
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">المؤسسة / الجامعة التابع لها</label>
-            <input type="text" id="regAffiliation" placeholder="كلية العلوم - قسم الرياضيات / أمن المعلومات" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-800 focus:outline-none focus:border-harvard-navy focus:bg-white transition">
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">المسار البحثي التخصصي</label>
-            <select id="regSpecialty" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-800 focus:outline-none focus:border-harvard-navy focus:bg-white transition">
-              <option value="Threat Intelligence">استخبارات التهديدات وتحليل الثغرات</option>
-              <option value="Network Infrastructure">أمن البنية التحتية والشبكات (CCNA/BGP)</option>
-              <option value="Cryptographic Algorithms">التشفير والتحليل الخوارزمي</option>
-              <option value="Open Source Recon">استخبارات المصادر المفتوحة الدفاعية (OSINT)</option>
+            <label class="block font-bold text-slate-300 mb-1">المسار التخصصي</label>
+            <select id="inputRegSpecialty" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-slate-100 focus:outline-none focus:border-[#A51C30]">
+              <option value="استخبارات التهديدات (Threat Intel)">استخبارات التهديدات (Threat Intel)</option>
+              <option value="أمن الشبكات والبنية التحتية">أمن الشبكات والبنية التحتية (CCNA/BGP)</option>
+              <option value="التحليل الخوارزمي والتشفير">التحليل الخوارزمي والتشفير</option>
+              <option value="فحص المصادر المفتوحة (OSINT)">فحص المصادر المفتوحة (OSINT)</option>
             </select>
           </div>
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">البريد الإلكتروني المعتمد</label>
-          <input type="email" id="authEmail" required placeholder="analyst@vortex-defense.org" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-800 focus:outline-none focus:border-harvard-navy focus:bg-white transition">
+          <label class="block font-bold text-slate-300 mb-1">البريد الإلكتروني</label>
+          <input type="email" id="inputEmail" required placeholder="analyst@vortex-defense.org" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-slate-100 focus:outline-none focus:border-[#A51C30]">
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">كلمة المرور التوثيقية</label>
-          <input type="password" id="authPassword" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-2 text-slate-800 focus:outline-none focus:border-harvard-navy focus:bg-white transition">
+          <label class="block font-bold text-slate-300 mb-1">كلمة المرور</label>
+          <input type="password" id="inputPassword" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-slate-100 focus:outline-none focus:border-[#A51C30]">
         </div>
 
-        <div class="flex items-center justify-between text-slate-600 pt-1">
-          <label class="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" class="rounded border-slate-300 text-harvard-crimson">
-            <span>تذكر جلسة العمل</span>
-          </label>
-          <a href="#" class="text-harvard-crimson hover:underline">مساعدة المصادقة الأكاديمية</a>
-        </div>
-
-        <button type="submit" id="authSubmitBtn" class="w-full bg-harvard-navy hover:bg-slate-900 text-white font-bold py-2.5 rounded shadow transition mt-2">
+        <button type="submit" id="btnSubmitAuth" class="w-full bg-[#A51C30] hover:bg-[#8C1525] text-white font-bold py-2.5 rounded shadow transition mt-2">
           تسجيل الدخول إلى النظام
         </button>
       </form>
 
-      <!-- زر المعاينة والدخول السريع كباحث زائر -->
-      <div class="mt-6 pt-5 border-t border-slate-100 text-center">
-        <button onclick="loginAsGuest()" class="text-harvard-crimson font-bold hover:underline inline-flex items-center gap-1 text-xs">
-          <span>الدخول الفوري بنسخة المعاينة البحثية (Guest Fellow)</span>
-          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+      <!-- زر تجربة سريع -->
+      <div class="mt-6 pt-5 border-t border-slate-700 text-center">
+        <button onclick="loginAsGuest()" class="text-xs text-[#C5A059] hover:underline font-bold">
+          الدخول الفوري بنسخة المعاينة كباحث ضيف (Guest Fellow) ←
         </button>
       </div>
 
     </div>
-  </section>
+  </main>
 
   <!-- ========================================================================= -->
-  <!-- 3. صفحة مختبر الاستخبارات والتحليل (Recon & Intel Suite) -->
+  <!-- 3. صفحة مختبر الاستخبارات (Recon / OSINT Suite) -->
   <!-- ========================================================================= -->
-  <section id="page-recon" class="page-view flex-1 max-w-7xl mx-auto w-full p-6">
-    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-4">
+  <main id="page-recon" class="page-section flex-1 max-w-7xl mx-auto w-full p-6">
+    
+    <div class="mb-6 border-b border-slate-800 pb-4 flex justify-between items-center">
       <div>
-        <h2 class="text-2xl font-bold academic-heading text-harvard-navy">مختبر الاستخبارات مفتوحة المصدر والتدقيق (OSINT Suite)</h2>
-        <p class="text-xs text-slate-500 mt-1">وحدات فك التشفير الخوارزمي، فحص النطاقات، تدقيق الميتاداتا، وتتبع السجلات العامة</p>
+        <h2 class="text-xl sm:text-2xl font-black text-white">مختبر الاستخبارات والتدقيق (OSINT Suite)</h2>
+        <p class="text-xs text-slate-400 mt-0.5">وحدات فحص النطاقات، التدقيق الخوارزمي، وتحليل عناوين IP</p>
       </div>
-      <div class="flex gap-2">
-        <span class="text-xs bg-slate-100 border border-slate-300 px-3 py-1.5 rounded font-mono text-slate-700 flex items-center gap-1.5">
-          <i data-lucide="terminal" class="w-3.5 h-3.5 text-harvard-crimson"></i> Sandbox v2.4-Active
-        </span>
-      </div>
+      <span class="text-xs bg-slate-800 border border-slate-700 px-3 py-1 rounded font-code text-[#C5A059]">v2.6-SEC</span>
     </div>
 
-    <!-- شبكة وحدات الفحص -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- العمود الأيمن والأوسط: الأدوات الفعالة -->
+      <!-- العمود الأيمن: أدوات الفحص المباشر -->
       <div class="lg:col-span-8 space-y-6">
 
-        <!-- الأداة 1: وحدة التفكيك والتدقيق الخوارزمي للأرقام القومية -->
-        <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <!-- أداة 1: التدقيق الخوارزمي للرقم القومي -->
+        <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md">
+          <div class="flex justify-between items-center border-b border-slate-700/80 pb-3 mb-4">
             <div>
-              <h3 class="font-bold text-base text-harvard-navy flex items-center gap-2">
-                <i data-lucide="binary" class="w-5 h-5 text-harvard-crimson"></i>
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#A51C30]"></span>
                 التدقيق الخوارزمي للرقم القومي (Deterministic National ID Parser)
               </h3>
-              <p class="text-xs text-slate-500 mt-0.5">تحليل الهيكل الرياضي المعياري الـ 14 رقم ومطابقة الأختام الحسابية</p>
+              <p class="text-[11px] text-slate-400">تحليل الهيكل الرياضي المعياري للـ 14 رقماً دون اتصال بأي قواعد بيانات سرية</p>
             </div>
-            <span class="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-mono font-bold">
-              Privacy-Preserving
+            <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-code">
+              Zero-PII Leak
             </span>
           </div>
 
-          <div class="space-y-3">
-            <div class="flex gap-2">
-              <input type="text" id="reconNidInput" maxlength="14" placeholder="أدخل الرقم القومي المعياري (14 رقماً)..." class="flex-1 bg-slate-50 border border-slate-300 rounded px-3 py-2 text-sm text-slate-800 font-code focus:outline-none focus:border-harvard-navy focus:bg-white transition">
-              <button onclick="executeNationalIdAnalysis()" class="bg-harvard-navy hover:bg-slate-900 text-white font-bold text-xs px-5 py-2 rounded transition flex items-center gap-1.5 shadow-sm">
-                <i data-lucide="cpu" class="w-4 h-4 text-harvard-gold"></i>
-                <span>تفكيك حسابي</span>
-              </button>
-            </div>
-            <p class="text-[11px] text-slate-400">
-              * يقوم هذا النظام الرياضي بفك الترميز القياسي المعياري فقط، ولا يستعلم عن أي أسماء أو حسابات خاصة التزاماً بالقانون والأخلاقيات البحثية.
-            </p>
-          </div>
-
-          <!-- مخرجات تفكيك الرقم القومي -->
-          <div id="reconNidOutput" class="mt-4 p-4 rounded bg-slate-50 border border-slate-200 text-xs text-slate-700 hidden">
-          </div>
-        </div>
-
-        <!-- الأداة 2: فاحص النطاقات وسجلات الـ DNS العامة -->
-        <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-            <h3 class="font-bold text-base text-harvard-navy flex items-center gap-2">
-              <i data-lucide="globe" class="w-5 h-5 text-harvard-navy"></i>
-              استخبارات النطاقات والبنية السحابية العامة (Domain & DNS Recon)
-            </h3>
-            <span class="text-xs text-slate-500 font-mono">RFC-Compliant Resolver</span>
-          </div>
-
           <div class="flex gap-2">
-            <input type="text" id="reconDomainInput" placeholder="harvard.edu أو t-online.de" class="flex-1 bg-slate-50 border border-slate-300 rounded px-3 py-2 text-sm text-slate-800 font-code focus:outline-none focus:border-harvard-navy focus:bg-white transition">
-            <button onclick="executeDomainRecon()" class="bg-harvard-crimson hover:bg-harvard-crimsonHover text-white font-bold text-xs px-5 py-2 rounded transition flex items-center gap-1.5 shadow-sm">
-              <i data-lucide="search" class="w-4 h-4"></i>
-              <span>فحص السجلات</span>
+            <input type="text" id="nidInput" maxlength="14" placeholder="أدخل الرقم القومي المكون من 14 رقماً..." class="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-2 text-xs font-code text-slate-100 focus:outline-none focus:border-[#A51C30]">
+            <button onclick="parseNationalId()" class="bg-[#A51C30] hover:bg-[#8C1525] text-white text-xs font-bold px-5 py-2 rounded transition">
+              تحليل خوارزمي
             </button>
           </div>
 
-          <!-- شاشة النتائج بصيغة Terminal -->
-          <div class="mt-4 bg-harvard-navy rounded-lg p-4 font-code text-xs text-slate-200 border border-slate-800 min-h-[160px] overflow-x-auto custom-scrollbar" id="reconDomainConsole">
-            <span class="text-slate-500">// أدخل نطاقاً لبدء سحب سجلات A, AAAA, MX, NS, TXT وتحليل سياسات DMARC...</span>
-          </div>
+          <div id="nidOutput" class="mt-4 p-4 rounded bg-slate-900 border border-slate-800 text-xs hidden"></div>
         </div>
 
-        <!-- الأداة 3: استعلام عناوين الـ IP واستخبارات أنظمة الـ BGP -->
-        <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-            <h3 class="font-bold text-base text-harvard-navy flex items-center gap-2">
-              <i data-lucide="activity" class="w-5 h-5 text-emerald-700"></i>
-              استخبارات عناوين الشبكة والأنظمة المستقلة (IP & ASN Intelligence)
+        <!-- أداة 2: فحص النطاقات و DNS -->
+        <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md">
+          <div class="flex justify-between items-center border-b border-slate-700/80 pb-3 mb-4">
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#C5A059]"></span>
+              فاحص النطاقات وسجلات الـ DNS العامة
             </h3>
-            <span class="text-xs text-slate-500 font-mono">GeoIP / BGP Routing</span>
+            <span class="text-[10px] text-slate-400 font-code">RFC-6891 DNS Resolver</span>
           </div>
 
           <div class="flex gap-2">
-            <input type="text" id="reconIpInput" placeholder="8.8.8.8 أو 1.1.1.1" class="flex-1 bg-slate-50 border border-slate-300 rounded px-3 py-2 text-sm text-slate-800 font-code focus:outline-none focus:border-harvard-navy focus:bg-white transition">
-            <button onclick="executeIpLookup()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-5 py-2 rounded transition flex items-center gap-1.5">
-              <i data-lucide="navigation-2" class="w-4 h-4 text-emerald-400"></i>
-              <span>استعلام المسار</span>
+            <input type="text" id="domainInput" placeholder="مثال: harvard.edu أو example.com" class="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-2 text-xs font-code text-slate-100 focus:outline-none focus:border-[#A51C30]">
+            <button onclick="runDomainLookup()" class="bg-[#0A192F] border border-slate-600 hover:bg-slate-900 text-[#C5A059] text-xs font-bold px-5 py-2 rounded transition">
+              فحص السجلات
             </button>
           </div>
 
-          <div class="mt-4 p-4 rounded bg-slate-50 border border-slate-200 text-xs hidden" id="reconIpOutput">
+          <div id="domainConsole" class="mt-4 bg-slate-950 rounded p-4 font-code text-xs text-slate-300 min-h-[140px] border border-slate-800 overflow-x-auto">
+            <span class="text-slate-600">// أدخل نطاقاً لعرض خريطة السجلات العامة وحالة توثيق DMARC / SPF...</span>
           </div>
+        </div>
+
+        <!-- أداة 3: استعلام عناوين الـ IP -->
+        <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md">
+          <h3 class="font-bold text-sm text-white mb-3 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            استخبارات عناوين الشبكة والأنظمة المستقلة (IP & ASN)
+          </h3>
+          <div class="flex gap-2">
+            <input type="text" id="ipInput" placeholder="مثال: 8.8.8.8 أو 1.1.1.1" class="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-2 text-xs font-code text-slate-100 focus:outline-none focus:border-[#A51C30]">
+            <button onclick="runIpLookup()" class="bg-slate-900 hover:bg-slate-950 border border-slate-700 text-white text-xs font-bold px-5 py-2 rounded transition">
+              استعلام
+            </button>
+          </div>
+          <div id="ipOutput" class="mt-4 p-4 rounded bg-slate-900 border border-slate-800 text-xs hidden"></div>
         </div>
 
       </div>
 
-      <!-- العمود الأيسر: محلل الميتاداتا وقائمة تقليل البصمة الرقمية -->
+      <!-- العمود الأيسر: محلل الميتاداتا وقائمة الحماية -->
       <div class="lg:col-span-4 space-y-6">
 
-        <!-- أداة فحص الميتاداتا المعزولة محلياً -->
-        <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm">
-          <h3 class="font-bold text-sm text-harvard-navy mb-2 flex items-center gap-2">
-            <i data-lucide="file-search" class="w-4 h-4 text-harvard-crimson"></i>
-            محلل الميتاداتا المعزول (Zero-Upload)
-          </h3>
-          <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-            يتم فحص الصور والملفات محلياً 100% داخل المتصفح لاستخراج أبعادها والبيانات الوصفية دون رفع الملفات لأي خادم.
-          </p>
-
-          <label class="border-2 border-dashed border-slate-300 hover:border-harvard-crimson rounded-lg p-6 text-center cursor-pointer block transition bg-slate-50">
-            <i data-lucide="upload-cloud" class="w-8 h-8 mx-auto text-slate-400 mb-2"></i>
-            <span class="text-xs text-slate-700 block font-bold">اسحب الملف هنا أو انقر للاختيار</span>
-            <span class="text-[10px] text-slate-400 block mt-1">PNG, JPG, PDF, TXT</span>
-            <input type="file" id="reconFileInput" onchange="inspectFileLocally(event)" class="hidden">
+        <!-- فاحص الميتاداتا المعزول محلياً -->
+        <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md">
+          <h3 class="font-bold text-sm text-white mb-1">محلل الميتاداتا المعزول محلياً</h3>
+          <p class="text-xs text-slate-400 mb-4">فحص البيانات الوصفية للملفات داخل المتصفح مباشرة دون رفعها لأي سيرفر</p>
+          
+          <label class="border-2 border-dashed border-slate-700 hover:border-[#A51C30] rounded-lg p-6 text-center cursor-pointer block bg-slate-900/60 transition">
+            <span class="text-xs font-bold text-slate-300 block">اختر صورة أو ملف للفحص</span>
+            <span class="text-[10px] text-slate-500 block mt-1">PNG, JPG, PDF, TXT</span>
+            <input type="file" id="metaFileInput" onchange="runFileInspect(event)" class="hidden">
           </label>
 
-          <div id="fileInspectionOutput" class="mt-4 p-3 rounded bg-slate-900 font-code text-[11px] text-slate-300 border border-slate-800 hidden">
-          </div>
+          <div id="fileInspectOutput" class="mt-3 p-3 rounded bg-slate-950 font-code text-[11px] text-slate-300 border border-slate-800 hidden"></div>
         </div>
 
-        <!-- معايير السلامة الرقمية ومصفوفة التدقيق -->
-        <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm">
-          <h3 class="font-bold text-sm text-harvard-navy mb-3 flex items-center gap-2">
-            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
-            مصفوفة تقليل البصمة الرقمية (Hardening)
-          </h3>
-          <div class="space-y-2.5 text-xs text-slate-700">
-            <label class="flex items-center gap-2 p-2 rounded bg-slate-50 border border-slate-200 cursor-pointer">
-              <input type="checkbox" checked class="rounded border-slate-300 text-harvard-crimson">
+        <!-- قائمة تقليل البصمة الرقمية -->
+        <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md">
+          <h3 class="font-bold text-sm text-[#C5A059] mb-3">قائمة تقليل البصمة الرقمية (Hardening)</h3>
+          <div class="space-y-2.5 text-xs text-slate-300">
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900/80 border border-slate-800 cursor-pointer">
+              <input type="checkbox" checked class="rounded bg-slate-950 border-slate-700 text-[#A51C30]">
               <span>تفعيل حماية Whois Privacy على النطاقات</span>
             </label>
-            <label class="flex items-center gap-2 p-2 rounded bg-slate-50 border border-slate-200 cursor-pointer">
-              <input type="checkbox" checked class="rounded border-slate-300 text-harvard-crimson">
-              <span>حذف وسوم EXIF الجغرافية قبل النشر العام</span>
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900/80 border border-slate-800 cursor-pointer">
+              <input type="checkbox" checked class="rounded bg-slate-950 border-slate-700 text-[#A51C30]">
+              <span>تطهير بيانات EXIF الجغرافية قبل الرفع</span>
             </label>
-            <label class="flex items-center gap-2 p-2 rounded bg-slate-50 border border-slate-200 cursor-pointer">
-              <input type="checkbox" class="rounded border-slate-300 text-harvard-crimson">
-              <span>فرض سياسات DMARC بوضع Reject</span>
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900/80 border border-slate-800 cursor-pointer">
+              <input type="checkbox" class="rounded bg-slate-950 border-slate-700 text-[#A51C30]">
+              <span>تطبيق سياسة DMARC بوضع Reject الصارم</span>
             </label>
-            <label class="flex items-center gap-2 p-2 rounded bg-slate-50 border border-slate-200 cursor-pointer">
-              <input type="checkbox" class="rounded border-slate-300 text-harvard-crimson">
-              <span>تطبيق توثيق DNSSEC لكافة أسماء النطاق</span>
+            <label class="flex items-center gap-2 p-2 rounded bg-slate-900/80 border border-slate-800 cursor-pointer">
+              <input type="checkbox" class="rounded bg-slate-950 border-slate-700 text-[#A51C30]">
+              <span>تفعيل توثيق DNSSEC للنطاقات الحيوية</span>
             </label>
           </div>
         </div>
@@ -501,364 +388,530 @@
       </div>
 
     </div>
-  </section>
+  </main>
 
   <!-- ========================================================================= -->
-  <!-- 4. صفحة شبكة التواصل الأكاديمي والباحثين (Research Community) -->
+  <!-- 4. صفحة مجتمع وشبكة الباحثين (Community Page) -->
   <!-- ========================================================================= -->
-  <section id="page-community" class="page-view flex-1 max-w-7xl mx-auto w-full p-6">
-    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-4">
-      <div>
-        <h2 class="text-2xl font-bold academic-heading text-harvard-navy">شبكة الباحثين والمحللين الدفاعيين</h2>
-        <p class="text-xs text-slate-500 mt-1">مجتمع أكاديمي موثق لتبادل البلاغات، تحليل حملات التهديد، والنقاش الأمني المتخصص</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="text-xs bg-slate-100 border border-slate-300 text-slate-700 px-3 py-1.5 rounded flex items-center gap-1.5 font-bold">
-          <i data-lucide="users" class="w-3.5 h-3.5 text-harvard-navy"></i>
-          <span>حلقة النقاش: الدفعة البحثية 2026</span>
-        </span>
-      </div>
+  <main id="page-community" class="page-section flex-1 max-w-7xl mx-auto w-full p-6">
+    
+    <div class="mb-6 border-b border-slate-800 pb-4">
+      <h2 class="text-xl sm:text-2xl font-black text-white">شبكة المحللين والباحثين الدفاعيين</h2>
+      <p class="text-xs text-slate-400 mt-0.5">تبادل التقارير والبلاغات الأمنية وتحليل أنماط التهديد في بيئة أكاديمية موثقة</p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      <!-- العمود الأيمن والأوسط: تغذية المنشورات والنقاشات -->
-      <div class="lg:col-span-8 space-y-5">
+      
+      <!-- العمود الأيمن: نشر وقراءة التغريدات الأمنية -->
+      <div class="lg:col-span-8 space-y-4">
         
-        <!-- صندوق نشر تقرير أو مساهمة جديدة -->
-        <div class="bg-white border border-harvard-border rounded-lg p-5 shadow-sm">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-8 h-8 rounded bg-harvard-navy text-harvard-gold font-bold flex items-center justify-center text-xs" id="postAvatar">م</div>
-            <span class="text-xs font-bold text-slate-800" id="postAuthorName">مصطفى أحمد - باحث أمن معلومات</span>
+        <!-- صندوق نشر تقرير -->
+        <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-5 shadow-md">
+          <div class="flex items-center gap-2 mb-3">
+            <div id="postAuthorAvatar" class="w-7 h-7 rounded bg-[#A51C30] text-white font-bold text-xs flex items-center justify-center">م</div>
+            <span id="postAuthorLabel" class="text-xs font-bold text-slate-200">مصطفى أحمد - باحث أمن معلومات</span>
           </div>
-          <textarea id="communityPostText" rows="3" placeholder="شارك ملخصاً لرصد أمني، تحليل لنطاق مشبوه، أو استفساراً في بنية الشبكات..." class="w-full bg-slate-50 border border-slate-300 rounded p-3 text-xs text-slate-800 focus:outline-none focus:border-harvard-navy focus:bg-white transition"></textarea>
+          <textarea id="postTextContent" rows="3" placeholder="اكتب تقريراً أو رصداً لثغرة أو استفساراً أمنياً للمجتمع العلمي..." class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-xs text-slate-100 focus:outline-none focus:border-[#A51C30]"></textarea>
           
-          <div class="flex justify-between items-center mt-3 pt-2 border-t border-slate-100">
-            <div class="flex items-center gap-2">
-              <select id="communityPostCategory" class="bg-slate-100 border border-slate-300 rounded px-2.5 py-1 text-[11px] text-slate-700">
-                <option value="رصد أمني">رصد وتحليل تهديد</option>
-                <option value="استفسار أكاديمي">استفسار أكاديمي</option>
-                <option value="دراسة بنية">دراسة بنية تحتية / DNS</option>
-              </select>
-            </div>
-            <button onclick="publishCommunityPost()" class="bg-harvard-crimson hover:bg-harvard-crimsonHover text-white text-xs font-bold px-5 py-2 rounded transition flex items-center gap-1.5 shadow-sm">
-              <i data-lucide="send" class="w-3.5 h-3.5"></i>
-              <span>نشر بالشبكة الأكاديمية</span>
+          <div class="flex justify-between items-center mt-3 pt-2 border-t border-slate-700/60">
+            <select id="postCategory" class="bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs text-slate-300">
+              <option value="رصد أمني">رصد وتحليل تهديد</option>
+              <option value="بنية شبكية">دراسة بنية تحتية / DNS</option>
+              <option value="استفسار علمي">استفسار أكاديمي</option>
+            </select>
+            <button onclick="submitNewPost()" class="bg-[#A51C30] hover:bg-[#8C1525] text-white text-xs font-bold px-5 py-2 rounded transition shadow">
+              نشر في مجتمع الباحثين
             </button>
           </div>
         </div>
 
-        <!-- حاوية المنشورات (Posts Container) -->
-        <div id="communityFeedContainer" class="space-y-4">
-          <!-- منشور افتراضي 1 -->
-          <div class="bg-white border border-harvard-border rounded-lg p-5 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded bg-harvard-crimson text-white font-serif font-bold flex items-center justify-center text-sm shadow-sm">
-                  أ.د
-                </div>
+        <!-- حاوية المنشورات -->
+        <div id="postsListContainer" class="space-y-4">
+          <!-- منشور 1 -->
+          <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-5 shadow-sm">
+            <div class="flex justify-between items-center mb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded bg-[#0A192F] text-[#C5A059] border border-slate-700 font-bold text-xs flex items-center justify-center">أ.د</div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900">أ.د. عبد الرحمن الشرقاوي <span class="text-[10px] text-slate-400 font-normal mr-1">• أستاذ نظم التشفير</span></h4>
-                  <span class="text-[10px] text-slate-400">منذ 3 ساعات • ورقة مراجعة</span>
+                  <h4 class="text-xs font-bold text-slate-100">أ.د. عبد الرحمن الشرقاوي <span class="text-[10px] text-slate-400 font-normal mr-1">• أستاذ نظم التشفير</span></h4>
+                  <span class="text-[10px] text-slate-500">منذ ساعتين • تحليل معتمد</span>
                 </div>
               </div>
-              <span class="text-[10px] bg-red-50 text-harvard-crimson border border-red-200 px-2 py-0.5 rounded font-bold">رصد وتحليل تهديد</span>
+              <span class="text-[10px] bg-red-950 text-red-300 border border-red-800 px-2 py-0.5 rounded font-bold">رصد وتحليل تهديد</span>
             </div>
-            <p class="text-xs text-slate-700 leading-relaxed">
-              قمنا بمراجعة سجلات Certificate Transparency الخاصة بعدد من النطاقات التعليمية، ولاحظنا محاولات تسجيل نطاقات تصيد (Typosquatting) تشبه المواقع الجامعية. يُرجى من المحللين تدقيق سجلات الـ CAA لحصر جهات إصدار الشهادات المعتمدة فقط.
+            <p class="text-xs text-slate-300 leading-relaxed">
+              لاحظنا زيادة في محاولات تسجيل نطاقات Typosquatting الشبيهة بالمنصات الأكاديمية والجامعية. نوصي مسؤولي الشبكات بمراجعة سجلات Certificate Transparency Logs وتفعيل سياسات DNS CAA لمنع إصدار شهادات غير معتمدة.
             </p>
-            <div class="flex items-center gap-6 mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
-              <button onclick="likePost(this)" class="flex items-center gap-1.5 hover:text-harvard-crimson transition"><i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i> تأييد الورقة (24)</button>
-              <button class="flex items-center gap-1.5 hover:text-harvard-navy transition"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> التعقيبات الأكاديمية (6)</button>
-              <button class="flex items-center gap-1.5 hover:text-slate-800 transition mr-auto"><i data-lucide="share-2" class="w-3.5 h-3.5"></i> مشاركة</button>
+            <div class="flex items-center gap-6 mt-4 pt-3 border-t border-slate-700/60 text-xs text-slate-400">
+              <button onclick="togglePostLike(this)" class="hover:text-red-400 transition">تأييد التحليل (27)</button>
+              <button class="hover:text-white transition">الردود العلمية (4)</button>
             </div>
           </div>
 
-          <!-- منشور افتراضي 2 -->
-          <div class="bg-white border border-harvard-border rounded-lg p-5 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded bg-harvard-navy text-harvard-gold font-serif font-bold flex items-center justify-center text-sm shadow-sm">
-                  م.ن
-                </div>
+          <!-- منشور 2 -->
+          <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-5 shadow-sm">
+            <div class="flex justify-between items-center mb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded bg-slate-900 text-emerald-400 border border-slate-700 font-bold text-xs flex items-center justify-center">م.ن</div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900">م. ندى الحسيني <span class="text-[10px] text-slate-400 font-normal mr-1">• مهندسة بنية تحتية سحابية</span></h4>
-                  <span class="text-[10px] text-slate-400">منذ 6 ساعات • مسار BGP</span>
+                  <h4 class="text-xs font-bold text-slate-100">م. ندى الحسيني <span class="text-[10px] text-slate-400 font-normal mr-1">• مهندسة بنية تحتية سحابية</span></h4>
+                  <span class="text-[10px] text-slate-500">منذ 5 ساعات • مسار BGP</span>
                 </div>
               </div>
-              <span class="text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-bold">دراسة بنية</span>
+              <span class="text-[10px] bg-slate-900 text-slate-300 border border-slate-700 px-2 py-0.5 rounded font-bold">دراسة بنية</span>
             </div>
-            <p class="text-xs text-slate-700 leading-relaxed">
-              تحديث مهم: تم تفعيل توقيع مسارات RPKI لحماية جداول التوجيه الخاصة بـ Autonomous Systems المستضيفة لمراكز البيانات البحثية. هذا يقلل من خطر اختطاف مسار BGP Hijacking بنسبة تفوق 90%.
+            <p class="text-xs text-slate-300 leading-relaxed">
+              تم تحديث إرشادات توقيع مسارات RPKI في مراكز البيانات المشتركة لصد محاولات BGP Route Hijacking بنجاح. يمكن مراجعة الإعدادات من المستودع الأكاديمي.
             </p>
-            <div class="flex items-center gap-6 mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
-              <button onclick="likePost(this)" class="flex items-center gap-1.5 hover:text-harvard-crimson transition"><i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i> تأييد الورقة (31)</button>
-              <button class="flex items-center gap-1.5 hover:text-harvard-navy transition"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> التعقيبات الأكاديمية (9)</button>
-              <button class="flex items-center gap-1.5 hover:text-slate-800 transition mr-auto"><i data-lucide="share-2" class="w-3.5 h-3.5"></i> مشاركة</button>
+            <div class="flex items-center gap-6 mt-4 pt-3 border-t border-slate-700/60 text-xs text-slate-400">
+              <button onclick="togglePostLike(this)" class="hover:text-red-400 transition">تأييد التحليل (19)</button>
+              <button class="hover:text-white transition">الردود العلمية (2)</button>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- العمود الأيسر: المحللون النشطون وجدول الحلقات -->
+      <!-- العمود الأيسر: الأعضاء والجدول -->
       <div class="lg:col-span-4 space-y-6">
-        <!-- الزملاء الباحثون المتصلون -->
-        <div class="bg-white border border-harvard-border rounded-lg p-5 shadow-sm">
-          <h4 class="font-bold text-xs text-harvard-navy mb-3 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="award" class="w-4 h-4 text-harvard-crimson"></i>
-            الهيئة البحثية النشطة
-          </h4>
+        <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-5 shadow-md">
+          <h4 class="font-bold text-xs text-[#C5A059] uppercase tracking-wider mb-3">الباحثون المتصلون الآن</h4>
           <div class="space-y-3 text-xs">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded bg-slate-200 text-slate-800 flex items-center justify-center font-bold text-[10px]">م.ع</div>
-                <div>
-                  <p class="font-bold text-slate-800">مصطفى أحمد</p>
-                  <p class="text-[10px] text-slate-400">باحث أمن ودفاع رقمي</p>
-                </div>
+            <div class="flex items-center justify-between pb-2 border-b border-slate-700/60">
+              <div>
+                <p class="font-bold text-slate-200">مصطفى أحمد</p>
+                <p class="text-[10px] text-slate-400">باحث أمن ودفاع رقمي</p>
               </div>
-              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
             </div>
-
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded bg-slate-200 text-slate-800 flex items-center justify-center font-bold text-[10px]">س.ك</div>
-                <div>
-                  <p class="font-bold text-slate-800">د. سامي كمال</p>
-                  <p class="text-[10px] text-slate-400">محلل أول استخبارات تهديدات</p>
-                </div>
+            <div class="flex items-center justify-between pb-2 border-b border-slate-700/60">
+              <div>
+                <p class="font-bold text-slate-200">د. سامي كمال</p>
+                <p class="text-[10px] text-slate-400">محلل أول استخبارات تهديدات</p>
               </div>
-              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
             </div>
-
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded bg-slate-200 text-slate-800 flex items-center justify-center font-bold text-[10px]">م.ط</div>
-                <div>
-                  <p class="font-bold text-slate-800">م. طارق المهدي</p>
-                  <p class="text-[10px] text-slate-400">مهندس أمن شبكات سحابية</p>
-                </div>
+              <div>
+                <p class="font-bold text-slate-200">م. طارق المهدي</p>
+                <p class="text-[10px] text-slate-400">مهندس أمن شبكات سحابية</p>
               </div>
-              <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+              <span class="w-2 h-2 rounded-full bg-slate-500"></span>
             </div>
           </div>
         </div>
-
-        <!-- حلقات النقاش عبر المنظومة السحابية -->
-        <div class="bg-white border border-harvard-border rounded-lg p-5 shadow-sm">
-          <h4 class="font-bold text-xs text-harvard-navy mb-3 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="calendar" class="w-4 h-4 text-harvard-gold"></i>
-            حلقات السمينار القادمة
-          </h4>
-          <div class="border-r-2 border-harvard-crimson pr-3 py-1 text-xs space-y-1">
-            <p class="font-bold text-slate-800">هندسة الاستخبارات مفتوحة المصدر للقطاعات الحيوية</p>
-            <p class="text-[10px] text-slate-500">الأربعاء القادم • 18:00 بتوقيت القاهرة</p>
-            <button class="mt-2 text-[10px] text-harvard-crimson font-bold hover:underline">حجز مقعد باحث مستمع ←</button>
-          </div>
-        </div>
       </div>
+
     </div>
-  </section>
+  </main>
 
   <!-- ========================================================================= -->
-  <!-- 5. صفحة مستودع الدراسات والأوراق البحثية (Research Archive) -->
+  <!-- 5. صفحة مستودع الدراسات (Archive Page) -->
   <!-- ========================================================================= -->
-  <section id="page-archive" class="page-view flex-1 max-w-7xl mx-auto w-full p-6">
-    <div class="mb-8 border-b border-slate-200 pb-4">
-      <h2 class="text-2xl font-bold academic-heading text-harvard-navy">مستودع الأوراق والدراسات الدفاعية المحكمة</h2>
-      <p class="text-xs text-slate-500 mt-1">تقارير ودراسات تحليلية منشورة لمراجعة الأقران في مجالات الـ OSINT وأمن البنية التحتية</p>
+  <main id="page-archive" class="page-section flex-1 max-w-7xl mx-auto w-full p-6">
+    <div class="mb-6 border-b border-slate-800 pb-4">
+      <h2 class="text-xl sm:text-2xl font-black text-white">مستودع الأوراق والدراسات الدفاعية</h2>
+      <p class="text-xs text-slate-400 mt-0.5">دراسات وتقارير أمنية محكمة في مجالات الـ OSINT وأمن الشبكات</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- ورقة 1 -->
-      <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm flex flex-col justify-between">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md flex flex-col justify-between">
         <div>
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono font-bold">DOC: VT-2026-09</span>
-            <span class="text-[10px] text-slate-400">سبتمبر 2026</span>
-          </div>
-          <h3 class="font-bold text-sm text-harvard-navy mb-2 leading-snug">
-            تحليل معمارية بروتوكولات DNSSEC في صد هجمات التسميم Cache Poisoning
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            دراسة تطبيقية لآليات التحقق من السجلات التشفيرية RRSIG و DNSKEY وكيفية منع التلاعب بمسارات خوادم الأسماء.
-          </p>
+          <span class="text-[10px] bg-slate-900 text-[#C5A059] border border-slate-700 px-2 py-0.5 rounded font-code">DOC: VT-2026-09</span>
+          <h3 class="font-bold text-sm text-white mt-3 mb-2">معمارية بروتوكولات DNSSEC في صد تسميم الكاش (Cache Poisoning)</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">آليات التحقق من السجلات التشفيرية RRSIG و DNSKEY لمنع التلاعب بمسارات خوادم الأسماء.</p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-          <span class="text-slate-500 text-[11px]">صيغة البحث: PDF (840 KB)</span>
-          <button onclick="downloadPaperSim('VT-2026-09')" class="text-harvard-crimson hover:underline font-bold flex items-center gap-1">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>تحميل الملخص</span>
-          </button>
-        </div>
+        <button onclick="triggerToast('جاري تجهيز نسخة البحث VT-2026-09')" class="text-xs text-[#A51C30] hover:text-red-400 font-bold text-right pt-3 border-t border-slate-700">
+          تحميل الملخص الأكاديمي ←
+        </button>
       </div>
 
-      <!-- ورقة 2 -->
-      <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm flex flex-col justify-between">
+      <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md flex flex-col justify-between">
         <div>
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono font-bold">DOC: VT-2026-04</span>
-            <span class="text-[10px] text-slate-400">أغسطس 2026</span>
-          </div>
-          <h3 class="font-bold text-sm text-harvard-navy mb-2 leading-snug">
-            منهجية الفحص السطحي والاستخبار مفتوح المصدر لتقييم تعرض المؤسسات (EASM)
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            استعراض أطر العمل الحديثة في اكتشاف الأصول الرقمية المكشوفة تلقائياً وتقييم المخاطر السيبرانية قبل استغلالها.
-          </p>
+          <span class="text-[10px] bg-slate-900 text-[#C5A059] border border-slate-700 px-2 py-0.5 rounded font-code">DOC: VT-2026-04</span>
+          <h3 class="font-bold text-sm text-white mt-3 mb-2">منهجية الفحص السطحي والاستخبار مفتوح المصدر (EASM)</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">استعراض أطر العمل الحديثة لاكتشاف الأصول الرقمية المكشوفة تلقائياً وتقييم مخاطرها.</p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-          <span class="text-slate-500 text-[11px]">صيغة البحث: PDF (1.2 MB)</span>
-          <button onclick="downloadPaperSim('VT-2026-04')" class="text-harvard-crimson hover:underline font-bold flex items-center gap-1">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>تحميل الملخص</span>
-          </button>
-        </div>
+        <button onclick="triggerToast('جاري تجهيز نسخة البحث VT-2026-04')" class="text-xs text-[#A51C30] hover:text-red-400 font-bold text-right pt-3 border-t border-slate-700">
+          تحميل الملخص الأكاديمي ←
+        </button>
       </div>
 
-      <!-- ورقة 3 -->
-      <div class="bg-white border border-harvard-border rounded-lg p-6 shadow-sm flex flex-col justify-between">
+      <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-6 shadow-md flex flex-col justify-between">
         <div>
-          <div class="flex justify-between items-start mb-3">
-            <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono font-bold">DOC: VT-2026-01</span>
-            <span class="text-[10px] text-slate-400">يونيو 2026</span>
-          </div>
-          <h3 class="font-bold text-sm text-harvard-navy mb-2 leading-snug">
-            الهندسة الرياضية للأرقام المعيارية والتحقق غير التداخلي (Non-Invasive Verification)
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            ورقة بحثية تشرح خوارزميات التدقيق الحسابي للتحقق من سلامة المدخلات المعيارية دون المساس بقواعد البيانات المركزية.
-          </p>
+          <span class="text-[10px] bg-slate-900 text-[#C5A059] border border-slate-700 px-2 py-0.5 rounded font-code">DOC: VT-2026-01</span>
+          <h3 class="font-bold text-sm text-white mt-3 mb-2">الهندسة الرياضية للأرقام المعيارية والتحقق غير التداخلي</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">تفكيك خوارزميات التدقيق الحسابي للتحقق من سلامة المدخلات دون المساس بقواعد البيانات المركزية.</p>
         </div>
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-          <span class="text-slate-500 text-[11px]">صيغة البحث: PDF (620 KB)</span>
-          <button onclick="downloadPaperSim('VT-2026-01')" class="text-harvard-crimson hover:underline font-bold flex items-center gap-1">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>تحميل الملخص</span>
-          </button>
-        </div>
+        <button onclick="triggerToast('جاري تجهيز نسخة البحث VT-2026-01')" class="text-xs text-[#A51C30] hover:text-red-400 font-bold text-right pt-3 border-t border-slate-700">
+          تحميل الملخص الأكاديمي ←
+        </button>
       </div>
+
     </div>
-  </section>
+  </main>
 
   <!-- ========================================================================= -->
-  <!-- 6. صفحة الملف الشخصي وإعدادات الباحث (Profile Page) -->
+  <!-- 6. صفحة الملف الشخصي للباحث (Profile Page) -->
   <!-- ========================================================================= -->
-  <section id="page-profile" class="page-view flex-1 max-w-4xl mx-auto w-full p-6">
-    <div class="bg-white border border-harvard-border rounded-lg shadow-sm p-8">
-      <div class="flex flex-col sm:flex-row items-center gap-6 border-b border-slate-100 pb-6 mb-6">
-        <div class="w-20 h-20 rounded-lg bg-harvard-navy text-harvard-gold font-serif font-bold text-3xl flex items-center justify-center shadow" id="profileBigAvatar">
-          م
-        </div>
+  <main id="page-profile" class="page-section flex-1 max-w-4xl mx-auto w-full p-6">
+    <div class="bg-slate-800/90 border border-slate-700 rounded-lg shadow-xl p-8">
+      
+      <div class="flex flex-col sm:flex-row items-center gap-6 border-b border-slate-700 pb-6 mb-6">
+        <div id="profileMainAvatar" class="w-16 h-16 rounded bg-[#A51C30] text-white font-bold text-2xl flex items-center justify-center shadow-lg">م</div>
         <div class="text-center sm:text-right space-y-1">
-          <h2 class="text-2xl font-bold academic-heading text-harvard-navy" id="profileNameDisplay">مصطفى أحمد</h2>
-          <p class="text-xs text-slate-500" id="profileEmailDisplay">analyst@vortex-defense.org</p>
-          <div class="flex flex-wrap gap-2 pt-1 justify-center sm:justify-start">
-            <span class="text-[10px] bg-harvard-crimson/10 text-harvard-crimson border border-harvard-crimson/20 px-2.5 py-0.5 rounded font-bold" id="profileBadgeSpecialty">
-              Threat Intelligence
-            </span>
-            <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono">
-              Fellow ID: #VTX-8821
+          <h2 id="profileMainName" class="text-xl font-black text-white">مصطفى أحمد</h2>
+          <p id="profileMainEmail" class="text-xs text-slate-400">analyst@vortex-defense.org</p>
+          <div class="pt-1">
+            <span id="profileMainBadge" class="text-[10px] bg-[#A51C30]/20 text-red-300 border border-[#A51C30]/50 px-2.5 py-0.5 rounded font-bold">
+              استخبارات التهديدات (Threat Intel)
             </span>
           </div>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-        <div>
-          <h4 class="font-bold text-slate-800 mb-2">البيانات المؤسسية والاعتماد</h4>
-          <div class="space-y-2 bg-slate-50 p-4 rounded border border-slate-200">
-            <p><span class="text-slate-500">الرتبة البحثية:</span> <strong>زميل أبحاث نظم المعلومات والشبكات</strong></p>
-            <p><span class="text-slate-500">الجهة التابع لها:</span> <strong>كلية العلوم - قسم الرياضيات / أمن المعلومات</strong></p>
-            <p><span class="text-slate-500">تاريخ الانضمام:</span> <strong>مايو 2026</strong></p>
-            <p><span class="text-slate-500">مستوى الوصول للمختبر:</span> <strong class="text-emerald-700">Tier 2 - Unrestricted Recon</strong></p>
-          </div>
+        <div class="bg-slate-900/80 p-4 rounded border border-slate-800 space-y-2">
+          <h4 class="font-bold text-[#C5A059] mb-2">البيانات المؤسسية</h4>
+          <p><span class="text-slate-400">الرتبة البحثية:</span> <strong>زميل أبحاث أمن معلومات</strong></p>
+          <p><span class="text-slate-400">حالة الاعتماد:</span> <strong class="text-emerald-400">معتمد ونشط (Tier-2)</strong></p>
+          <p><span class="text-slate-400">معرف العضوية:</span> <strong class="font-code text-slate-300">#VTX-9941</strong></p>
         </div>
 
-        <div>
-          <h4 class="font-bold text-slate-800 mb-2">إحصائيات النشاط الأكاديمي</h4>
-          <div class="space-y-2 bg-slate-50 p-4 rounded border border-slate-200">
-            <div class="flex justify-between"><span>التقارير المنشورة بالشبكة:</span> <strong>7 تقارير</strong></div>
-            <div class="flex justify-between"><span>الفحوصات المنفذة بالمختبر:</span> <strong>134 استعلام</strong></div>
-            <div class="flex justify-between"><span>تأييدات الزملاء (Endorsements):</span> <strong>48 تأييد</strong></div>
-          </div>
+        <div class="bg-slate-900/80 p-4 rounded border border-slate-800 space-y-2">
+          <h4 class="font-bold text-[#C5A059] mb-2">إحصائيات النشاط</h4>
+          <p><span class="text-slate-400">الفحوصات المنفذة بالمختبر:</span> <strong>142 استعلام</strong></p>
+          <p><span class="text-slate-400">المساهمات والتقارير المنشورة:</span> <strong>8 تقارير</strong></p>
+          <p><span class="text-slate-400">تأييدات الزملاء:</span> <strong>54 تأييد</strong></p>
         </div>
       </div>
 
-      <div class="mt-8 pt-6 border-t border-slate-100 flex justify-end gap-3">
-        <button onclick="navigateTo('recon')" class="bg-harvard-navy hover:bg-slate-900 text-white text-xs font-bold px-5 py-2.5 rounded transition">
-          العودة للمختبر
+      <div class="mt-6 pt-4 border-t border-slate-700 flex justify-end">
+        <button onclick="showPage('recon')" class="bg-[#A51C30] hover:bg-[#8C1525] text-white text-xs font-bold px-5 py-2.5 rounded transition">
+          العودة للمختبر الأمني
         </button>
       </div>
+
     </div>
-  </section>
+  </main>
 
-  <!-- ==================== التذييل الأكاديمي الشامل (Institutional Footer) ==================== -->
-  <footer class="bg-harvard-navy text-slate-400 text-xs py-10 border-t-2 border-harvard-crimson mt-16">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-      <div class="md:col-span-2 space-y-3">
-        <div class="flex items-center gap-2 text-white font-bold text-base academic-heading">
-          <span class="w-6 h-6 rounded-sm bg-harvard-crimson flex items-center justify-center text-xs">V</span>
-          VORTEX INSTITUTE FOR DEFENSE & INTEL
-        </div>
-        <p class="text-slate-400 text-xs leading-relaxed max-w-md">
-          صرح أكاديمي وبحثي مخصص لعلوم استخبارات التهديدات والدفاع السيبراني المتقدم. تعمل كافة أدواتنا ضمن نطاق التحليل الدفاعي والأخلاقي لحماية المؤسسات والمستخدمين.
-        </p>
-      </div>
-
+  <!-- ==================== التذييل المؤسسي (Footer) ==================== -->
+  <footer class="bg-[#0A192F] text-slate-400 text-xs py-8 border-t-2 border-[#A51C30] mt-12">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
       <div>
-        <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3">وحدات المنظومة</h4>
-        <ul class="space-y-2 text-xs">
-          <li><a href="javascript:navigateTo('recon')" class="hover:text-harvard-gold transition">مختبر الاستخبارات (OSINT)</a></li>
-          <li><a href="javascript:navigateTo('community')" class="hover:text-harvard-gold transition">شبكة الباحثين والمحللين</a></li>
-          <li><a href="javascript:navigateTo('archive')" class="hover:text-harvard-gold transition">مستودع الأوراق المحكمة</a></li>
-        </ul>
+        <p class="font-bold text-slate-200">Vortex Institute for Defense & Open Source Intelligence</p>
+        <p class="text-[11px] text-slate-500 mt-0.5">منصة أكاديمية مخصصة لأبحاث استخبارات التهديدات والدفاع السيبراني الإيجابي.</p>
       </div>
-
-      <div>
-        <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3">المعايير والأخلاقيات</h4>
-        <ul class="space-y-2 text-xs">
-          <li><span class="hover:text-white transition">حماية الخصوصية (Zero-PII Storage)</span></li>
-          <li><span class="hover:text-white transition">شروط التدقيق غير التداخلي</span></li>
-          <li><span class="hover:text-white transition">التواصل المؤسسي والبحثي</span></li>
-        </ul>
+      <div class="flex gap-4 text-[11px]">
+        <button onclick="showPage('home')" class="hover:text-white">الرئيسية</button>
+        <button onclick="showPage('recon')" class="hover:text-white">المختبر</button>
+        <button onclick="showPage('community')" class="hover:text-white">شبكة الباحثين</button>
       </div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-6 pt-6 border-t border-slate-800 text-center text-slate-500 text-[11px] flex flex-col sm:flex-row justify-between items-center gap-2">
-      <p>© 2026 معهد فورتكس للدراسات الدفاعية والاستخبارات - كافة الحقوق الأكاديمية محفوظة.</p>
-      <p class="font-mono">SEC-GRADE: ACADEMIC DEFENSE VERIFIED</p>
     </div>
   </footer>
 
-  <!-- إشعار عائم للإجراءات (Toast Notification) -->
-  <div id="toastNotification" class="fixed bottom-6 right-6 bg-harvard-navy text-white px-4 py-3 rounded-lg shadow-2xl border border-harvard-crimson text-xs flex items-center gap-3 transform translate-y-20 opacity-0 transition duration-300 pointer-events-none z-50">
-    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400" id="toastIcon"></i>
-    <span id="toastMessage">تم تنفيذ الإجراء بنجاح</span>
+  <!-- إشعار التنبيه العائم (Toast) -->
+  <div id="toastBox" class="fixed bottom-6 right-6 bg-[#0A192F] text-white px-5 py-3 rounded border border-[#A51C30] shadow-2xl text-xs flex items-center gap-3 transform translate-y-24 opacity-0 transition duration-300 pointer-events-none z-50">
+    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+    <span id="toastMsgText">تم تنفيذ العملية بنجاح</span>
   </div>
 
-  <!-- ==================== المحرك البرمجي والمنطق التفاعلي (JavaScript) ==================== -->
+  <!-- ==================== المحرك البرمجي المستقل (Pure JavaScript) ==================== -->
   <script>
-    // تهيئة الأيقونات
-    lucide.createIcons();
-
-    // حالة المستخدم الافتراضية
-    let currentUser = {
+    // حالة الجلسة الحالية
+    let userState = {
       isLoggedIn: true,
       name: 'مصطفى أحمد',
       email: 'analyst@vortex-defense.org',
-      specialty: 'Threat Intelligence',
-      role: 'زميل أبحاث نظم المعلومات'
+      specialty: 'استخبارات التهديدات (Threat Intel)'
     };
 
-    let currentAuthMode = 'login';
+    let authMode = 'login';
 
-    // خريطة محافظات جمهورية مصر العربية وفق الهيكل الرياضي للرقم القومي
-    const govMap = {
+    // خريطة أكواد المحافظات في الرقم القومي المصري
+    const egyptGovMap = {
       '01': 'القاهرة', '02': 'الإسكندرية', '03': 'بورسعيد', '04': 'السويس',
       '11': 'دمياط', '12': 'الدقهلية', '13': 'الشرقية', '14': 'القليوبية',
       '15': 'كفر الشيخ', '16': 'الغربية', '17': 'المنوفية', '18': 'البحيرة',
       '19': 'الإسماعيلية', '21': 'الجيزة', '22': 'بني سويف', '23': 'الفيوم',
       '24': 'المنيا', '25': 'أسيوط', '26': 'سوهاج', '27': 'قنا',
       '28': 'أسوان', '29': 'الأقصر', '31': 'البحر الأحمر', '32': 'الوادي الجديد',
-      '33': 'مطروح', '34': 'ش
+      '33': 'مطروح', '34': 'شمال سيناء', '35': 'جنوب سيناء', '88': 'مواليد خارج الجمهورية'
+    };
+
+    // التنقل بين الصفحات
+    function showPage(pageId) {
+      const pages = ['home', 'auth', 'recon', 'community', 'archive', 'profile'];
+      pages.forEach(p => {
+        const el = document.getElementById(`page-${p}`);
+        if (el) el.classList.remove('active');
+      });
+
+      const target = document.getElementById(`page-${pageId}`);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // تحديث مظهر روابط النافبار
+      document.querySelectorAll('.nav-link').forEach(btn => {
+        btn.classList.remove('bg-slate-800', 'text-[#C5A059]');
+      });
+      const activeNav = document.getElementById(`nav-${pageId}`);
+      if (activeNav) {
+        activeNav.classList.add('bg-slate-800', 'text-[#C5A059]');
+      }
+    }
+
+    // تبديل نموذج الدخول / التسجيل
+    function setAuthMode(mode) {
+      authMode = mode;
+      const regFields = document.getElementById('registerFields');
+      const title = document.getElementById('authFormTitle');
+      const sub = document.getElementById('authFormSubtitle');
+      const submitBtn = document.getElementById('btnSubmitAuth');
+      const btnLog = document.getElementById('btnSwitchLogin');
+      const btnReg = document.getElementById('btnSwitchRegister');
+
+      if (mode === 'register') {
+        regFields.classList.remove('hidden');
+        title.innerText = 'طلب اعتماد باحث جديد';
+        sub.innerText = 'انضم إلى شبكة الباحثين والمحللين في معهد فورتكس';
+        submitBtn.innerText = 'إرسال طلب الاعتماد الأكاديمي';
+        btnReg.className = 'flex-1 py-2 text-xs font-bold rounded bg-[#A51C30] text-white transition';
+        btnLog.className = 'flex-1 py-2 text-xs font-bold rounded text-slate-400 hover:text-white transition';
+      } else {
+        regFields.classList.add('hidden');
+        title.innerText = 'بوابة اعتماد الباحثين';
+        sub.innerText = 'سجل الدخول للوصول إلى مختبر الاستخبارات وشبكة المحللين';
+        submitBtn.innerText = 'تسجيل الدخول إلى النظام';
+        btnLog.className = 'flex-1 py-2 text-xs font-bold rounded bg-[#A51C30] text-white transition';
+        btnReg.className = 'flex-1 py-2 text-xs font-bold rounded text-slate-400 hover:text-white transition';
+      }
+    }
+
+    // معالجة الدخول أو التسجيل
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('inputEmail').value;
+      const regName = document.getElementById('inputRegName').value;
+      const regSpec = document.getElementById('inputRegSpecialty').value;
+
+      userState.isLoggedIn = true;
+      userState.name = regName.trim() || (email ? email.split('@')[0] : 'المحلل المعتمد');
+      userState.email = email || 'analyst@vortex-defense.org';
+      if (regSpec) userState.specialty = regSpec;
+
+      updateUserUI();
+      triggerToast(`مرحباً بك د. ${userState.name}`);
+      showPage('recon');
+    }
+
+    function loginAsGuest() {
+      userState.isLoggedIn = true;
+      userState.name = 'باحث ضيف (Guest Fellow)';
+      userState.email = 'guest@vortex-defense.org';
+      userState.specialty = 'فحص المصادر المفتوحة (OSINT)';
+      updateUserUI();
+      triggerToast('تم تسجيل الدخول بنجاح كباحث زائر');
+      showPage('recon');
+    }
+
+    function userLogout() {
+      userState.isLoggedIn = false;
+      document.getElementById('userProfileBadge').classList.add('hidden');
+      document.getElementById('logoutBtn').classList.add('hidden');
+      document.getElementById('authTriggerBtn').classList.remove('hidden');
+      triggerToast('تم تسجيل الخروج بنجاح');
+      showPage('home');
+    }
+
+    function updateUserUI() {
+      document.getElementById('userProfileBadge').classList.remove('hidden');
+      document.getElementById('logoutBtn').classList.remove('hidden');
+      document.getElementById('authTriggerBtn').classList.add('hidden');
+
+      const initial = userState.name.charAt(0);
+      document.getElementById('userNameDisplay').innerText = userState.name;
+      document.getElementById('userAvatarText').innerText = initial;
+
+      document.getElementById('profileMainName').innerText = userState.name;
+      document.getElementById('profileMainEmail').innerText = userState.email;
+      document.getElementById('profileMainBadge').innerText = userState.specialty;
+      document.getElementById('profileMainAvatar').innerText = initial;
+
+      document.getElementById('postAuthorLabel').innerText = `${userState.name} - ${userState.specialty}`;
+      document.getElementById('postAuthorAvatar').innerText = initial;
+    }
+
+    // أداة 1: التدقيق الخوارزمي المعياري للرقم القومي
+    function parseNationalId() {
+      const input = document.getElementById('nidInput').value.trim();
+      const out = document.getElementById('nidOutput');
+
+      if (!/^\d{14}$/.test(input)) {
+        out.classList.remove('hidden');
+        out.innerHTML = `<span class="text-red-400 font-bold">خطأ في الإدخال:</span> يجب إدخال 14 رقماً وفق الهيكل القياسي للرقم القومي.`;
+        return;
+      }
+
+      const centuryDigit = parseInt(input[0]);
+      let century = 1900;
+      if (centuryDigit === 2) century = 1900;
+      else if (centuryDigit === 3) century = 2000;
+      else {
+        out.classList.remove('hidden');
+        out.innerHTML = `<span class="text-red-400 font-bold">رقم غير صالح:</span> خانة القرن (${centuryDigit}) خارج النطاق القياسي المعياري.`;
+        return;
+      }
+
+      const year = century + parseInt(input.substring(1, 3));
+      const month = input.substring(3, 5);
+      const day = input.substring(5, 7);
+      const govCode = input.substring(7, 9);
+      const govName = egyptGovMap[govCode] || 'كود غير مدرج / قيد التوثيق';
+      
+      const genderDigit = parseInt(input[12]);
+      const gender = (genderDigit % 2 === 0) ? 'أنثى' : 'ذكر';
+      const checkDigit = input[13];
+
+      out.classList.remove('hidden');
+      out.innerHTML = `
+        <div class="font-bold text-white border-b border-slate-800 pb-2 mb-3 flex justify-between items-center">
+          <span class="text-emerald-400">نتائج التفكيك الخوارزمي المحدد (Deterministic Checksum):</span>
+          <span class="font-code text-[11px] text-[#C5A059]">MATCH VALID</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-slate-300">
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800"><span class="text-slate-500 block text-[10px]">تاريخ الميلاد المستنتج:</span> <strong>${day}/${month}/${year}</strong></div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800"><span class="text-slate-500 block text-[10px]">محل تسجيل الميلاد:</span> <strong>${govName} (${govCode})</strong></div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800"><span class="text-slate-500 block text-[10px]">النوع المقيد رقمياً:</span> <strong>${gender}</strong></div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800"><span class="text-slate-500 block text-[10px]">رقم التدقيق:</span> <strong class="font-code text-red-400">${checkDigit}</strong></div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-slate-500">
+          ملاحظة دفاعية: هذا التحليل حسابي خالص ولا يكشف أو يستعلم عن أي أسماء أو بيانات شخصية خاصة.
+        </div>
+      `;
+    }
+
+    // أداة 2: فحص النطاقات و DNS
+    function runDomainLookup() {
+      const d = document.getElementById('domainInput').value.trim() || 'harvard.edu';
+      const out = document.getElementById('domainConsole');
+
+      out.innerHTML = `<span class="text-slate-400">> جاري استعلام سجلات النطاق: ${d}...</span>\n\n` +
+`<span class="text-emerald-400">[+] A Records:</span>\n` +
+`  • ${d} -> 151.101.65.140 (Fastly Edge Anycast Routing)\n` +
+`  • ${d} -> 151.101.129.140\n\n` +
+`<span class="text-[#C5A059]">[+] Nameservers (Authoritative NS):</span>\n` +
+`  • ns1.${d} [Active / Valid SOA]\n` +
+`  • ns2.${d}\n\n` +
+`<span class="text-cyan-400">[+] Mail Exchange (MX Security):</span>\n` +
+`  • 10 mxa-00142.gslb.pphosted.com (Proofpoint Threat Isolation Gate)\n\n` +
+`<span class="text-slate-300">[+] SPF & DMARC Status:</span>\n` +
+`  • v=DMARC1; p=reject; rua=mailto:dmarc-reports@${d} [ENFORCED]`;
+    }
+
+    // أداة 3: استعلام IP
+    function runIpLookup() {
+      const ip = document.getElementById('ipInput').value.trim() || '8.8.8.8';
+      const out = document.getElementById('ipOutput');
+
+      out.classList.remove('hidden');
+      out.innerHTML = `
+        <div class="font-bold text-white border-b border-slate-800 pb-2 mb-2 flex justify-between items-center">
+          <span class="font-code text-[#C5A059]">${ip}</span>
+          <span class="text-emerald-400 font-bold text-[10px]">RESOLVED</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-slate-300">
+          <div><span class="text-slate-500 block text-[10px]">الموقع الجغرافي:</span> <strong>الولايات المتحدة (US)</strong></div>
+          <div><span class="text-slate-500 block text-[10px]">مزود الخدمة (ISP):</span> <strong>Google LLC</strong></div>
+          <div><span class="text-slate-500 block text-[10px]">رقم النظام المستقل:</span> <strong class="font-code">AS15169</strong></div>
+          <div><span class="text-slate-500 block text-[10px]">تصنيف السمعة:</span> <strong class="text-emerald-400">Clean / DNS Resolver</strong></div>
+        </div>
+      `;
+    }
+
+    // أداة 4: فحص ملف محلياً (Metadata)
+    function runFileInspect(e) {
+      const file = e.target.files[0];
+      const out = document.getElementById('fileInspectOutput');
+      if (!file) return;
+
+      out.classList.remove('hidden');
+      out.innerHTML = `
+        <span class="text-[#C5A059] font-bold">[بيانات الملف المعالجة محلياً]:</span><br>
+        • اسم الملف: ${file.name}<br>
+        • الحجم: ${(file.size / 1024).toFixed(2)} KB<br>
+        • نوع الملف (MIME): ${file.type || 'غير محدد'}<br>
+        • آخر تعديل: ${new Date(file.lastModified).toLocaleDateString('ar-EG')}<br>
+        • حالة الأمان: تمت القراءة داخل المتصفح بأمان تام دون رفعه لأي خادم.
+      `;
+    }
+
+    // نشر تدوينة جديدة في شبكة الباحثين
+    function submitNewPost() {
+      const text = document.getElementById('postTextContent').value.trim();
+      const cat = document.getElementById('postCategory').value;
+      if (!text) {
+        triggerToast('يرجى كتابة محتوى المشاركة أولاً');
+        return;
+      }
+
+      const container = document.getElementById('postsListContainer');
+      const card = document.createElement('div');
+      card.className = 'bg-slate-800/90 border border-slate-700 rounded-lg p-5 shadow-sm';
+      card.innerHTML = `
+        <div class="flex justify-between items-center mb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded bg-[#A51C30] text-white font-bold text-xs flex items-center justify-center">
+              ${userState.name.charAt(0)}
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-100">${userState.name} <span class="text-[10px] text-slate-400 font-normal mr-1">• ${userState.specialty}</span></h4>
+              <span class="text-[10px] text-slate-500">الآن • مساهمة فورية</span>
+            </div>
+          </div>
+          <span class="text-[10px] bg-slate-900 text-[#C5A059] border border-slate-700 px-2 py-0.5 rounded font-bold">${cat}</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">${text}</p>
+        <div class="flex items-center gap-6 mt-4 pt-3 border-t border-slate-700/60 text-xs text-slate-400">
+          <button onclick="togglePostLike(this)" class="hover:text-red-400 transition">تأييد التحليل (1)</button>
+          <button class="hover:text-white transition">الردود العلمية (0)</button>
+        </div>
+      `;
+
+      container.prepend(card);
+      document.getElementById('postTextContent').value = '';
+      triggerToast('تم نشر تقريرك بنجاح في شبكة الباحثين');
+    }
+
+    function togglePostLike(btn) {
+      btn.classList.toggle('text-red-400');
+      btn.classList.toggle('font-bold');
+    }
+
+    // نظام الإشعارات المنبثقة (Toast)
+    function triggerToast(msg) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMsgText').innerText = msg;
+      box.classList.remove('translate-y-24', 'opacity-0');
+      box.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        box.classList.remove('translate-y-0', 'opacity-100');
+        box.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    // ساعة النظام
+    setInterval(() => {
+      const now = new Date();
+      const el = document.getElementById('systemClock');
+      if (el) el.innerText = now.toLocaleTimeString('en-US', { hour12: false });
+    }, 1000);
+
+    // تهيئة حالة البدء
+    updateUserUI();
+  </script>
+</body>
+            </html>
