@@ -4,22 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Clock</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-center p-4">
 
   <div class="text-center space-y-6">
     <!-- التاريخ -->
@@ -27,7 +21,7 @@
       Loading date...
     </div>
 
-    <!-- الساعة الرقمية الرئيسية -->
+    <!-- الساعة الرقمية -->
     <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur">
       <div id="timeDisplay" class="font-mono font-bold text-5xl sm:text-7xl md:text-8xl tracking-tight text-white">
         00:00:00
@@ -37,37 +31,38 @@
       </div>
     </div>
 
-    <!-- مؤشر النبض الحي -->
-    <div class="flex items-center justify-center gap-2 text-xs text-slate-500 font-mono">
-      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-      <span>LIVE TIME TICKER</span>
+    <!-- زر الكاميرا للتوجيه إلى فيسبوك -->
+    <div class="pt-4 flex flex-col items-center gap-2">
+      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" 
+         class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 border border-slate-700 hover:border-blue-500 hover:text-blue-500 text-slate-300 transition-all duration-300 hover:scale-110 shadow-lg"
+         title="خد فطيزك يمصطفي">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+          <circle cx="12" cy="13" r="4"></circle>
+        </svg>
+      </a>
+      <span class="text-xs text-slate-500 font-mono">Camera Shortcut</span>
     </div>
   </div>
 
   <script>
     function updateClock() {
       const now = new Date();
-
-      // تنسيق الوقت
       let hours = now.getHours();
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
       const ampm = hours >= 12 ? 'PM' : 'AM';
 
-      // تحويل لنظام 12 ساعة
-      hours = hours % 12;
-      hours = hours ? hours : 12; // 0 تصبح 12
+      hours = hours % 12 || 12;
       const formattedHours = String(hours).padStart(2, '0');
 
       document.getElementById('timeDisplay').innerText = `${formattedHours}:${minutes}:${seconds}`;
       document.getElementById('ampmDisplay').innerText = ampm;
 
-      // تنسيق التاريخ بالكامل
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       document.getElementById('dateDisplay').innerText = now.toLocaleDateString('en-US', options);
     }
 
-    // تحديث فوري ثم كل ثانية
     updateClock();
     setInterval(updateClock, 1000);
   </script>
